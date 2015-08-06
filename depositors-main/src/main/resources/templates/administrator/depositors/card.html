@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='depositors')"/>
+<body>
+<div class="container-fluid">
+
+    <!-- START Header Container -->
+    <div id="header-container" th:replace="fragment/header :: header(page='depositors')"/>
+    <!-- END Header Container -->
+
+    <!-- START Body Container -->
+    <div id="body-container">
+        <!-- START Left Column -->
+        <div id="left-column" class=""
+             th:replace="fragment/left-column :: left(page = 'administrator', subpage = 'depositors')"/>
+        <!-- END Left Column -->
+        <!-- START Right Column -->
+        <div id="right-column">
+            <div class="right-column-content">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1>
+                            <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    <span class="main-text">
+                                        Карточка вкладчика
+                                    </span>
+                        </h1>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+
+                <div class="row" th:if="${basepayinmustbecleared != null}">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Не зачислены основные средства</h3>
+                        </div>
+                        <div class="panel-body">
+                            Основная часть вклада до сих пор не зачислена на счет. Необходимо внести
+                            &#8381;&nbsp;<span
+                                th:text="${#numbers.formatDecimal(basepayinmustbecleared.sum, 0, 'COMMA', 2, 'POINT')}"/>
+                            на счет для продолжения работы с сервисом. Код платежа: <b
+                                th:text="${basepayinmustbecleared.num}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" th:with="ls=${(lockedOutcomeSaldo eq null)? null : 'Зарезервировано: ₽ ' + #numbers.formatDecimal(lockedOutcomeSaldo, 0, 'COMMA', 0, 'POINT')}">
+                    <!-- START Информация -->
+                    <div th:replace="fragment/depositors :: param_plate('icon icon-user', ${deposit.id}, 'Номер счета', 4)"/>
+                    <div th:replace="fragment/depositors :: param_plate_w_alert(
+                        'icon icon-dollar', ${'₽ ' + #numbers.formatDecimal(saldo, 0, 'COMMA', 2, 'POINT') + ' / ' +
+                        #numbers.formatDecimal(availableSaldo, 0, 'COMMA', 2, 'POINT')},
+                        'На счету / Доступно для вывода', 4, ${ls}
+                        )" />
+                    <div th:replace="fragment/depositors :: param_plate('icon icon-list-circle',${'%'+deposit.percent}, 'Процентная ставка', 4)"/>
+                    <!-- END Информация -->
+                </div>
+
+                <div class="block overview-block" th:replace="fragment/depositors :: info(${user}, false)" />
+
+                <div class="block overview-block" th:if="${user.deposit != null}">
+                    <div class="block-heading">
+                        <div class="main-text h2">
+                            Условия вклада
+                        </div>
+                        <div class="block-controls">
+                                        <span aria-hidden="true"
+                                              class="icon icon-cross icon-size-medium block-control-remove"></span>
+                        </div>
+                    </div>
+                    <div class="block-content-outer">
+                        <div class="block-content-inner">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-hover table-condensed">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                Процентная ставка
+                                            </td>
+                                            <td>
+                                                <form method="post" th:action="@{/administrator/deposit/percent}">
+                                                    <input type="hidden" name="deposit" th:value="${user.deposit.id}" />
+                                                    <input type="hidden" name="user" th:value="${user.id}" />
+                                                    <input type="text" name="percent" th:value="${user.deposit.percent}" />
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Изменить
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <!-- START Логи -->
+                            <div th:each="log : ${moneymotionlogs}">
+                                <div th:replace="fragment/depositors :: logs(${log.key}, ${log.value})"/>
+                            </div>
+                            <!-- END Логи -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- END Right Column -->
+    </div>
+    <!-- END Body Container -->
+    <div th:replace="fragment/scripts_bottom :: scripts(page = 'administrator', subpage = 'depositor-card')"/>
+    <script>
+        $(document).ready(function () {
+            adminPagesEngine.init($, "administrator/depositors/card");
+        });
+    </script>
+</div>
+<!-- /.container -->
+</body>
+</html>

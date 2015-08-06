@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='depositors')"/>
+<body>
+    <div class="container-fluid">
+
+        <!-- START Header Container -->
+        <div id="header-container" th:replace="fragment/header :: header(page='depositors')"/>
+        <!-- END Header Container -->
+
+        <!-- START Body Container -->
+        <div id="body-container">
+            <!-- START Left Column -->
+            <div id="left-column" class=""
+                 th:replace="fragment/left-column :: left(page = 'administrator', subpage = 'depositors')"/>
+            <!-- END Left Column -->
+            <!-- START Right Column -->
+            <div id="right-column">
+                <div class="right-column-content">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1>
+                                <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                        <span class="main-text">
+                                            Вкладчики
+                                        </span>
+                            </h1>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+
+                    <div class="block overview-block">
+                        <div class="block-heading">
+                            <div class="main-text h2">
+                                Вкладчики
+                            </div>
+                            <div class="block-controls">
+                                        <span aria-hidden="true"
+                                              class="icon icon-cross icon-size-medium block-control-remove"></span>
+                            </div>
+                        </div>
+                        <div class="block-content-outer">
+                            <div class="block-content-inner">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form>
+                                            <table>
+                                                <tr>
+                                                    <td><input type="text" name="deposit" placeholder="Номер счета" class="form-control"  /></td>
+                                                    <td><button type="submit" class="btn btn-info moneyMotionForm">Поиск</button></td>
+                                                </tr>
+                                            </table>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div th:replace="fragment/pagination :: paginationbar">PAGINATION</div>
+
+                                        <table class="table table-striped table-hover table-condensed"
+                                                th:if="${depositors != null}">
+                                            <thead>
+                                                <tr>
+                                                    <td>Номер счета</td>
+                                                    <td>Вкладчик</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="user : ${depositors}">
+                                                    <td>
+                                                        <a th:href="@{/administrator/depositor/card(user=${user.id})}" target="_blank">
+                                                            <span th:text="${user.deposit.id}" /></a>
+                                                    </td>
+                                                    <td>
+                                                        <a th:href="@{/administrator/depositor/card(user=${user.id})}" target="_blank">
+                                                            <span th:if="${user.deposit.depositor != null}" th:text="${user.deposit.depositor.fio}" /></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragment/scripts_bottom :: scripts(page = 'administrator', subpage = 'depositor-card')"/>
+        <script>
+            $(document).ready(function () {
+                adminPagesEngine.init($, "administrator/depositors/list");
+
+                $commonServices.onlyNumericInput($('input[name=deposit]')[0]);
+            });
+        </script>
+    </div>
+</body>
+</html>

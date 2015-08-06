@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='template')"/>
+<body>
+<div class="container-fluid">
+
+    <!-- START Header Container -->
+    <div id="header-container" th:replace="fragment/header :: header(page='template')"/>
+    <!-- END Header Container -->
+    <!-- START Body Container -->
+    <div id="body-container">
+        <!-- START Left Column -->
+        <div id="left-column" class="" th:replace="fragment/left-column :: left"/>
+        <!-- END Left Column -->
+        <!-- START Right Column -->
+        <div id="right-column">
+            <div class="right-column-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1>
+                            <span aria-hidden="true" class="icon icon-grid-big"></span>
+								<span class="main-text">
+									Регистрация
+								</span>
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="block">
+                            <div class="block-heading">
+                                <div class="main-text h2">
+                                    Регистрация
+                                </div>
+                                <div class="block-controls">
+                                    <!--span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span-->
+                                </div>
+                            </div>
+                            <div class="block-content-outer">
+                                <div class="block-content-inner">
+                                    <p>Регистрация завершена. В ближайшее вемя Вам будет выслан email
+                                        со ссылкой для подтверждения создания вклада.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Body Container -->
+</div>
+<!-- /.container -->
+
+<div th:replace="fragment/scripts_bottom :: scripts"/>
+
+</body>
+</html>

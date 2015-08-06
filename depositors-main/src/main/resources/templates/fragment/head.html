@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+        <html   xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+            <head th:fragment="head">
+                <meta charset="utf-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="description" content="" />
+                <meta name="author" content="" />
+                <link rel="icon" th:href="@{/static/assets/images/required/ico/favicon.ico}" href="static/assets/images/required/ico/favicon.ico" />
+                <!-- Fav and touch icons -->
+                <link rel="apple-touch-icon-precomposed" sizes="144x144" th:href="@{/static/assets/images/required/ico/apple-touch-icon-144-precomposed.png}" href="static/static/assets/images/required/ico/apple-touch-icon-144-precomposed.png" />
+                <link rel="apple-touch-icon-precomposed" sizes="114x114" th:href="@{/static/static/assets/images/required/ico/apple-touch-icon-114-precomposed.png}" href="static/assets/images/required/ico/apple-touch-icon-114-precomposed.png" />
+                <link rel="apple-touch-icon-precomposed" sizes="72x72" th:href="@{/static/assets/images/required/ico/apple-touch-icon-72-precomposed.png}" href="static/assets/images/required/ico/apple-touch-icon-72-precomposed.png" />
+                <link rel="apple-touch-icon-precomposed" th:href="@{/static/assets/images/required/ico/apple-touch-icon-57-precomposed.png}" href="static/assets/images/required/ico/apple-touch-icon-57-precomposed.png" />
+                <link rel="shortcut icon" th:href="@{/static/assets/images/required/ico/favicon.png}" href="static/assets/images/required/ico/favicon.png"/>
+
+                <title>Circloid - Responsive HTML Admin Template</title>
+
+                <!-- Required CSS Files -->
+                <link type="text/css" th:href="@{/static/assets/css/required/bootstrap/bootstrap.min.css}" href="static/assets/css/required/bootstrap/bootstrap.min.css" rel="stylesheet" />
+                <link href='http://fonts.googleapis.com/css?family=Roboto:400,300&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+                <link type="text/css" th:href="@{/static/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.css}" href="static/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.structure.min.css}" href="static/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.structure.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css}" href="static/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/required/mCustomScrollbar/jquery.mCustomScrollbar.min.css}" href="static/assets/css/required/mCustomScrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/required/icheck/all.css}" href="static/assets/css/required/icheck/all.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/fonts/metrize-icons/styles-metrize-icons.css}" href="static/assets/fonts/metrize-icons/styles-metrize-icons.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/user.css}" href="static/assets/css/user.css" rel="stylesheet" />
+
+                <!-- Optional CSS Files -->
+                <link type="text/css" th:if="${page == 'activation'}" th:href="@{/static/assets/css/optional/bootstrapValidator.min.css}" href="assets/css/optional/bootstrapValidator.min.css" rel="stylesheet" />
+                <!-- add CSS files here -->
+                <link type="text/css" th:href="@{/static/assets/css/demo-files/pages-signin-signup.css}" href="static/assets/css/demo-files/pages-signin-signup.css" rel="stylesheet" />
+                <!-- Registration form -->
+                <link type="text/css" th:href="@{/static/assets/css/optional/switchery.min.css}" href="static/assets/css/optional/switchery.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/optional/powerange.min.css}" href="static/assets/css/optional/powerange.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/optional/jquery.bootstrap-touchspin.min.css}" href="static/assets/css/optional/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/optional/bootstrap-tagsinput.min.css}" href="static/assets/css/optional/bootstrap-tagsinput.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/optional/bootstrap-datetimepicker.min.css}" href="static/assets/css/optional/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/optional/bootstrap-datetimepicker.min.css}" href="static/assets/css/optional/bootstrap-multiselect.min.css" rel="stylesheet" />
+                <!-- / Registration form -->
+
+
+                <!-- More Required CSS Files -->
+                <link type="text/css" th:href="@{/static/assets/css/styles-core.css}" href="static/assets/css/styles-core.css" rel="stylesheet" />
+                <link type="text/css" th:href="@{/static/assets/css/styles-core-responsive.css}" href="static/assets/css/styles-core-responsive.css" rel="stylesheet" />
+
+                <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+                <script th:src="@{/static/assets/js/required/misc/ie10-viewport-bug-workaround.js}" src="static/assets/js/required/misc/ie10-viewport-bug-workaround.js"></script>
+
+                <!--[if IE 7]>
+                <link type="text/css" th:href="@{/static/assets/css/required/misc/style-ie7.css}" href="static/assets/css/required/misc/style-ie7.css" rel="stylesheet" />
+                <script type="text/javascript" th:href="@{/static/assets/fonts/lte-ie7.js}" src="static/assets/fonts/lte-ie7.js"></script>
+                <![endif]-->
+                <!--[if IE 8]>
+                <link type="text/css" th:href="@{/static/assets/css/required/misc/style-ie8.css}" href="static/assets/css/required/misc/style-ie8.css" rel="stylesheet" />
+                <![endif]-->
+                <!--[if lte IE 8]>
+                <script type="text/javascript" th:href="@{/static/assets/css/required/misc/excanvas.min.js}" src="static/assets/css/required/misc/excanvas.min.js"></script>
+                <![endif]-->
+                <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+                <!--[if lt IE 9]>
+                <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                <![endif]-->
+            </head>
+        </html>

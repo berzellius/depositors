@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+        >
+<head>
+    <title>header</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div id="header-container" th:fragment="header">
+    <div class="header-bar navbar navbar-inverse" role="navigation">
+        <!-- NOTE TO READER: Accepts the following class(es) "navbar-fixed-top" class -->
+        <div class="container">
+            <div class="navbar-header">
+                <div class="logo">
+                    <!-- [The Logo] -->
+                </div>
+                <div id="preloadimage" style="display: none">
+                    <img th:src="@{/static/assets/images/additional/preloader.gif}"
+                         src="static/assets/images/additional/preloader.gif"/>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <!-- [The Mobile Menu Button] -->
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- START Header Info Container -->
+                <div class="header-info">
+                    <!-- START Header User Profile -->
+                    <div class="header-profile" th:if="${#httpServletRequest.remoteUser ne null}">
+                        <!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
+                        <ul class="header-profile-menu">
+                            <li>
+                                <a href="#" class="top">
+                        <span class="header-profile-menu-icon">
+                            <img class="list-thumbnail"
+                                 th:src="@{/static/assets/images/required/profile/profile-pic-4.jpg}"
+                                 src="static/assets/images/required/profile/profile-pic-4.jpg" width="39" height="39"
+                                 alt="profile-pic-4"/>
+                        </span>
+                        <span class="main-menu-text">
+                            <!--span sec:authorize="hasAnyAuthority('DEPOSITOR')" th:text="${#httpServletRequest.remoteUser.deposit.depositor.fio}" /-->&nbsp;
+                            <!--span th:text="${user.username}"/-->
+                            <span th:text="${#httpServletRequest.remoteUser}"/>
+                            <i class="icon icon-arrow-down-bold-round icon-size-small"></i>
+                        </span>
+                                </a>
+                                <ul class="highlight-color-blue-icon">
+                                    <!-- START: Menu Items. Duplicate this chunk for more options -->
+                                    <li>
+                                        <form action="/logout" th:action="@{/logout}" method="post">
+                                        </form>
+                                        <a href="#" class="submitSameContainerFormLink">
+                                            <span aria-hidden="true" class="icon icon-user"></span>
+                                            <span class="main-text">Выход</span>
+                                        </a>
+                                    </li>
+                                    <!-- END: Menu Items -->
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END Header User Profile -->
+                </div>
+                <!-- END Header Info Container -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

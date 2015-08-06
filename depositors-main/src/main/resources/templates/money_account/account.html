@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+        >
+<head th:replace="template :: head(title='Мой баланс')"/>
+<body>
+<div th:replace="fragment/header :: header(page='money_account')">...</div>
+<div class="container">
+    <h1>Мой баланс</h1>
+
+    <p>
+        <b>На счету:</b>&nbsp;
+        <b><span th:text="${saldo}"/></b>
+    </p>
+
+    <div class="span4">
+        <form class="form-signin" method="post" th:action="@{/money_account/payin}">
+            <h2 class="form-signin-heading">Пополнить счет</h2>
+
+            <div th:if="${reason ne null}" th:switch="${reason}">
+                <p th:case="${T(com.mfodepositorsacc.exceptions.WrongInputDataException.Reason).WRONG_SUM}" style="color: red">
+                    Введите корректное значение суммы!
+                </p>
+            </div>
+
+            <div th:if="${code ne null}" th:switch="${reason}">
+                <p style="color: green">
+                    Запрос на пополнение принят. Код: <b th:text="${code}"/> - указывайте его в платежных документах для
+                    скорейшего зачисления средств на счет.
+                </p>
+            </div>
+
+            <input type="text" class="input-block-level" placeholder="Введите сумму пополнения" name="sum"
+                   data-validation="number" data-validation-error-msg="Введите число"/>
+            <button class="btn btn-large btn-primary" type="submit">Пополнить</button>
+        </form>
+
+        <div>
+
+            <div th:if="${clientPayInAccountDocumentList != null}">
+
+                <h3>Запросы на пополнение</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Код</th>
+                        <th>Сумма</th>
+                        <th>Дата</th>
+                    </tr>
+                    </thead>
+                    <tbody class="rowlink">
+                    <tr th:each="document : ${clientPayInAccountDocumentList}"
+                        th:class="warning">
+                        <td th:text="${document.num}"/>
+                        <td th:text="${document.sum}"/>
+                        <td th:text="${document.dtmCreate}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="span6" th:if="${accountHistoryPage != null}">
+        <h3>История операций</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Операция</th>
+                <th>Дата и время</th>
+                <th>Сумма</th>
+                <th>Баланс до</th>
+            </tr>
+            </thead>
+            <tbody class="rowlink">
+            <tr th:each="ah : ${accountHistoryPage}" th:if="${ah.accountTransaction != null}"
+                th:class="${
+                    (ah.accountTransaction.document instanceof T(com.mfodepositorsacc.billing.dmodel.ClientPayInAccountDocument))? 'success' :
+                        (ah.accountTransaction.document instanceof T(com.mfodepositorsacc.billing.dmodel.ClientPaymentDocument))? 'warning' : ''
+                }"
+                    >
+                <td>
+                    <span th:if="${ah.accountTransaction.document instanceof T(com.mfodepositorsacc.billing.dmodel.ClientPayInAccountDocument)}">
+                        Пополнение баланса
+                    </span>
+                    <span th:if="${ah.accountTransaction.document instanceof T(com.mfodepositorsacc.billing.dmodel.ClientPaymentDocument)}"
+                          th:text="('Оплата заказа #')+${ah.accountTransaction.document.orderId}"
+                            />
+                </td>
+                <td th:text="${ah.dtmUpdate}"/>
+                <td th:text="${(ah.accountTransaction != null)? ah.accountTransaction.sum : ''}"/>
+                <td th:text="${ah.saldo}"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head/>
+<body>
+<div id="left-column" class="" th:fragment="left">
+    <div id="mainnav">
+        <ul class="mainnav">
+            <!-- START Меню администратора -->
+            <li th:class="${(page == 'administrator' and subpage == 'index')? 'menu-item-top menu-open' : 'menu-item-top'}"
+                sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/administrator/}" class="top">
+                        <span class="main-menu-icon">
+                            <span aria-hidden="true" class="icon icon-grid-big"></span>
+                        </span>
+                    <span class="main-menu-text">Главная</span>
+                </a>
+            </li>
+            <li th:class="${(page == 'administrator' and subpage == 'depositorTypeSettings')? 'menu-item-top menu-open' : 'menu-item-top'}"
+                sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/administrator/depsettings}" class="top">
+                        <span class="main-menu-icon">
+                            <span aria-hidden="true" class="icon icon-block-menu"></span>
+                        </span>
+                    <span class="main-menu-text">Настройки вкладов</span>
+                </a>
+            </li>
+            <li th:class="${(page == 'administrator' and subpage == 'depositors')? 'menu-item-top menu-open' : 'menu-item-top'}"
+                sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/administrator/depositor/list}" class="top">
+                        <span class="main-menu-icon">
+                            <span aria-hidden="true" class="icon icon-grid-big"></span>
+                        </span>
+                    <span class="main-menu-text">Вкладчики</span>
+                </a>
+            </li>
+            <li th:class="${(page == 'administrator' and subpage == 'moneymotion')? 'menu-item-top menu-open' : 'menu-item-top'}"
+                sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/administrator/moneymotion/}" class="top">
+                        <span class="main-menu-icon">
+                            <span aria-hidden="true" class="icon icon-dollar"></span>
+                        </span>
+                    <span class="main-menu-text">Движение денежных средств</span>
+                </a>
+            </li>
+            <!-- END Меню администратора -->
+
+            <!-- START Меню вкладчика -->
+            <li th:class="${(page == 'depositors' and subpage == 'index')? 'menu-item-top menu-open' : 'menu-item-top'}"
+                sec:authorize="hasRole('DEPOSITOR')">
+                <a th:href="@{/depositor/}" class="top">
+                        <span class="main-menu-icon">
+                            <span aria-hidden="true" class="icon icon-grid-big"></span>
+                        </span>
+                    <span class="main-menu-text">Главная</span>
+                </a>
+            </li>
+            <li th:class="${(page == 'depositors' and subpage == 'moneymotion')? 'menu-item-top menu-open' : 'menu-item-top'}"
+                sec:authorize="hasRole('DEPOSITOR')">
+                <a th:href="@{/depositor/moneymotion}" class="top">
+                        <span class="main-menu-icon">
+                            <span aria-hidden="true" class="icon icon-dollar"></span>
+                        </span>
+                    <span class="main-menu-text">Движение денежных средств</span>
+                </a>
+            </li>
+            <!-- END Меню вкладчика -->
+        </ul>
+    </div>
+</div>
+</body>
+</html>

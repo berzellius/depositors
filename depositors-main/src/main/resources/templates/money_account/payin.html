@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+        >
+<head th:replace="template :: head(title='Запросы на пополнение счета')"/>
+<body>
+<div th:replace="fragment/header :: header(page='money_account_payin')">...</div>
+<div class="container">
+    <h1>Пополнение счетов клиентов</h1>
+
+    <div th:replace="fragment/pagination :: paginationbar">PAGINATION</div>
+
+    <div th:if="${clientPayInAccountDocumentList != null}">
+
+        <h3>Запросы на пополнение</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Код</th>
+                <th>Клиент</th>
+                <th>Сумма</th>
+                <th>Дата</th>
+                <th>Подтвердить</th>
+            </tr>
+            </thead>
+            <tbody class="">
+            <tr th:each="document : ${clientPayInAccountDocumentList}">
+                <td th:text="${document.num}"/>
+                <td th:text="${document.client}" />
+                <td th:text="${document.sum}"/>
+                <td th:text="${document.dtmCreate}"/>
+                <td sec:authorize="hasAnyAuthority('ADMIN')">
+                    <form th:action="@{/money_account/confirm_pay_in}" method="post">
+                        <input type="hidden" name="code" th:value="${document.num}"/>
+                        <button class="btn btn-large btn-primary" type="submit">Подтвердить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragment/pagination :: paginationbar">PAGINATION</div>
+
+
+</div>
+
+</body>
+</html>

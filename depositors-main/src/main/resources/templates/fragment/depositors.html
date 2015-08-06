@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head/>
+<body>
+
+<div th:class="${'col-md-' + size}" th:fragment="param_plate(icon, data, desc, size)">
+    <div class="c-widget c-widget-quick-info c-widget-size-small highlight-color-blue">
+        <div class="c-widget-icon">
+            <span th:class="${icon}" class="icon"></span>
+        </div>
+        <div class="c-wdiget-content-block">
+            <div class="c-widget-content-heading"><span><b th:text="${data}"/></span></div>
+            <div class="c-widget-content-sub">
+                <span th:text="${desc}"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:class="${'col-md-' + size}" th:fragment="param_plate_w_alert(icon, data, desc, size, alert)">
+    <div class="c-widget c-widget-quick-info c-widget-size-small-3line highlight-color-blue">
+        <div class="c-widget-icon">
+            <span th:class="${icon}" class="icon"></span>
+        </div>
+        <div class="c-wdiget-content-block">
+            <div class="c-widget-content-heading"><span><b th:text="${data}"/></span></div>
+            <div class="c-widget-content-sub" th:if="${alert != null}">
+                <span style="font-weight: bold; color: red" th:text="${alert}" />
+            </div>
+            <div class="c-widget-content-sub">
+                <span th:text="${desc}"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" th:fragment="marketing_plate(percent, sum, name, desc)">
+    <div class="col-md-12">
+        <!-- START Widget: Graph -->
+        <div class="c-widget c-widget-graph c-widget-size-medium highlight-color-blue">
+            <div class="c-widget-icon">
+                <span class="icon icon-arrow-down-bold-round"></span>
+            </div>
+            <div class="c-wdiget-graph-actual">
+                <div id="${name}" class="graph graph-epc graph-size-small" data-percent="${percent}"
+                     data-graph-colors="#f14141,#6ec06e,#4596f1,#ffd040" style="width: 90px;">
+                    <span class="percent" style="line-height: 90px;" th:text="${percent}"/>
+                    <canvas height="90" width="90"></canvas>
+                </div>
+            </div>
+            <div class="c-wdiget-content-block">
+                <div class="c-widget-content-heading">
+                    <b>&#8381; <span th:text="${#numbers.formatDecimal(sum, 0, 'COMMA', 2, 'POINT')}"/></b>
+                </div>
+                <div class="c-widget-content-sub highlight-color-red-link">
+                    <span href="#" class="update-graph" th:text="${desc}"/>
+                </div>
+            </div>
+        </div>
+        <!-- END Widget: Graph -->
+    </div>
+</div>
+
+<div class="row" th:fragment="news_block">
+    <div class="col-md-12">
+        <div class="c-widget c-widget-custom c-widget-facebook c-widget-size-normal">
+            <div class="c-widget-icon">
+                <span class="icon icon-mail"></span>
+            </div>
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item">
+                        <div class="c-wdiget-content-block mCustomScrollbar _mCS_5 mCS-autoHide mCS_no_scrollbar"
+                             style="overflow: visible;">
+
+                            <div id="mCSB_5" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_outside"
+                                 style="max-height: 150px;" tabindex="0">
+                                <div id="mCSB_5_container"
+                                     class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y"
+                                     style="position: relative; top: 0px; left: 0px;" dir="ltr">
+                                    <div class="c-widget-content-heading">
+                                        07 December
+                                        <small>13:46</small>
+                                    </div>
+                                    <div class="c-widget-content-body">
+                                        Quickly maximize timely deliverables for real-time schemas.
+                                        Dramatically maintain clicks-and-mortar solutions without functional
+                                        solutions.
+                                    </div>
+                                    <div class="c-widget-content-sub">
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                                            Like This
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="mCSB_5_scrollbar_vertical"
+                                 class="mCSB_scrollTools mCSB_5_scrollbar mCS-dark mCSB_scrollTools_vertical"
+                                 style="display: none;">
+                                <div class="mCSB_draggerContainer">
+                                    <div id="mCSB_5_dragger_vertical" class="mCSB_dragger"
+                                         style="position: absolute; min-height: 0px; height: 0px; top: 0px;"
+                                         oncontextmenu="return false;">
+                                        <div class="mCSB_dragger_bar" style="line-height: 0px;"></div>
+                                    </div>
+                                    <div class="mCSB_draggerRail"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="c-wdiget-content-block mCustomScrollbar _mCS_6 mCS-autoHide mCS_no_scrollbar"
+                             style="overflow: visible;">
+
+                            <div id="mCSB_6" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_outside"
+                                 style="max-height: 150px;" tabindex="0">
+                                <div id="mCSB_6_container"
+                                     class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y"
+                                     style="position: relative; top: 0px; left: 0px;" dir="ltr">
+                                    <div class="c-widget-content-heading">
+                                        05 December
+                                        <small>09:39</small>
+                                    </div>
+                                    <div class="c-widget-content-body">
+                                        Efficiently unleash cross-media information without cross-media
+                                        value. Quickly maximize timely deliverables for real-time schemas.
+                                    </div>
+                                    <div class="c-widget-content-sub">
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                                            Like This
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="mCSB_6_scrollbar_vertical"
+                                 class="mCSB_scrollTools mCSB_6_scrollbar mCS-dark mCSB_scrollTools_vertical"
+                                 style="display: none;">
+                                <div class="mCSB_draggerContainer">
+                                    <div id="mCSB_6_dragger_vertical" class="mCSB_dragger"
+                                         style="position: absolute; min-height: 0px; top: 0px; height: 0px;"
+                                         oncontextmenu="return false;">
+                                        <div class="mCSB_dragger_bar" style="line-height: 0px;"></div>
+                                    </div>
+                                    <div class="mCSB_draggerRail"></div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="item active">
+                        <div class="c-wdiget-content-block mCustomScrollbar _mCS_7 mCS-autoHide mCS_no_scrollbar"
+                             style="overflow: visible;">
+
+                            <div id="mCSB_7" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_outside"
+                                 style="max-height: 150px;" tabindex="0">
+                                <div id="mCSB_7_container"
+                                     class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y"
+                                     style="position: relative; top: 0px; left: 0px;" dir="ltr">
+                                    <div class="c-widget-content-heading">
+                                        06 December
+                                        <small>22:19</small>
+                                    </div>
+                                    <div class="c-widget-content-body">
+                                        Dramatically maintain clicks-and-mortar solutions without functional
+                                        solutions. Quickly maximize timely deliverables for real-time
+                                        schemas.
+                                    </div>
+                                    <div class="c-widget-content-sub">
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                                            Like This
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="mCSB_7_scrollbar_vertical"
+                                 class="mCSB_scrollTools mCSB_7_scrollbar mCS-dark mCSB_scrollTools_vertical"
+                                 style="display: none;">
+                                <div class="mCSB_draggerContainer">
+                                    <div id="mCSB_7_dragger_vertical" class="mCSB_dragger"
+                                         style="position: absolute; min-height: 0px; top: 0px; height: 0px;"
+                                         oncontextmenu="return false;">
+                                        <div class="mCSB_dragger_bar" style="line-height: 0px;"></div>
+                                    </div>
+                                    <div class="mCSB_draggerRail"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="col-md-4" th:fragment="logs(scrollID, logList)">
+    <!-- START Widget Hybrid: Misc Info -->
+    <div class="block block-size-normal">
+        <div class="block-heading">
+            <div class="main-text h2">
+                <span th:if="${scrollID == 'capitalization'}" th:text="${'Начисления'}" />
+                <span th:if="${scrollID == 'payinaccount'}" th:text="${'Пополнения'}" />
+                <span th:if="${scrollID == 'outcome'}" th:text="${'Вывод средств'}" />
+            </div>
+            <div class="block-controls">
+                <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+            </div>
+        </div>
+        <div class="block-content-outer">
+            <div th:class="${'block-content-inner mCustomScrollbar _mCS_' + scrollID + ' mCS-autoHide'}"
+                 style="position: relative; overflow: visible;">
+                <div class="other-stats">
+                    <table class="table table-striped table-hover table-condensed">
+                        <tbody>
+                        <tr th:if="${logList != nul}" th:each="logItem : ${logList}">
+                            <td th:class="
+                                    ${
+                                        (logItem instanceof T(com.mfodepositorsacc.billing.dmodel.DepositOutcomeDocument)? 'red_sum' : 'green_sum') +
+                                        ' other-stats-number'
+                                        }
+                                ">
+                                <span>&#8381;</span>
+                                <span th:text="${#numbers.formatDecimal(logItem.sum, 0, 'COMMA', 2, 'POINT')}"/>
+                            </td>
+                            <td class="other-stats-text">
+                                <a href="#">
+                                    <span th:if="${scrollID == 'capitalization'}" th:text="${'Проценты'}" />
+                                    <span th:if="${
+                                        scrollID == 'payinaccount' AND
+                                        logItem.type == T(com.mfodepositorsacc.billing.dmodel.DepositPayInAccountDocument.Type).BASE
+                                        }" th:text="${'Первоначальное'}" />,
+                                    <span th:if="${
+                                        scrollID == 'payinaccount' AND
+                                        logItem.type == T(com.mfodepositorsacc.billing.dmodel.DepositPayInAccountDocument.Type).ADDITIONAL
+                                        }" th:text="${'Дополнительное'}" />
+                                    <span th:if="${scrollID == 'outcome'}" th:text="${'Вывод'}" />
+                                    <b th:text="${#dates.format(logItem.dtAcc, 'dd.MM.yyyy')}" />
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END Widget Hybrid: Misc Info -->
+</div>
+
+
+<div class="col-md-12" th:fragment="deposit-chart">
+    <!-- START Block: Overview Graph -->
+    <div class="block overview-block">
+        <div class="block-heading">
+            <div class="main-text h2">
+                График накоплений
+            </div>
+            <div class="block-controls">
+                <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                    <span aria-hidden="true"
+                          class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+            </div>
+        </div>
+        <div class="block-content-outer">
+            <div class="block-content-inner">
+                <div class="graph-range">
+                    <!--form role="form" class="form-inline">
+                        <div class="form-group graph-controls">
+                            <label for="date-range-select" class="control-label">Date Range</label>
+                            <select class="date-range-select form-control input-sm" id="date-range-select">
+                                <option value="today">Today</option>
+                                <option value="yesterday">Yesterday</option>
+                                <option value="this_week">This Week</option>
+                                <option value="last_week">Last Week</option>
+                                <option value="this_month">This Month</option>
+                                <option value="this_year" selected="selected">This Year</option>
+                                <option value="last_year">Last Year</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                        <div class="form-group graph-controls">
+                            <div class="date-picker-connected">
+                                <div class="input-group input-group-sm date-picker-start">
+                                    <input type="text" class="form-control" autocomplete="off" size="10"
+                                           placeholder="DD/MM/YYYY" data-date-format="DD/MM/YYYY"/>
+                                                                        <span class="input-group-addon input-group-icon">
+                                                                            <span class="glyphicon-calendar glyphicon"></span>
+                                                                        </span>
+                                </div>
+                                to
+                                <div class="input-group input-group-sm date-picker-end">
+                                    <input type="text" class="form-control" autocomplete="off" size="10"
+                                           placeholder="DD/MM/YYYY" data-date-format="DD/MM/YYYY"/>
+                                                                        <span class="input-group-addon input-group-icon">
+                                                                            <span class="glyphicon-calendar glyphicon"></span>
+                                                                        </span>
+                                </div>
+                                <a class="btn btn-info btn-sm">
+                                    <span class="glyphicon glyphicon-refresh"></span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group graph-controls">
+                            <label for="overview-order-status" class="control-label">Order Status</label>
+                            <select class="form-control input-sm" id="overview-order-status">
+                                <option value="all">All</option>
+                                <option value="canceled">Canceled</option>
+                                <option value="complete">Complete</option>
+                                <option value="denied">Denied</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
+                    </form-->
+                </div>
+                <div id="overview" class="graph graph-size-normal" data-graph-colors="#4596f1,#f17d45"
+                     style="padding: 0px; position: relative;">
+                    <canvas class="flot-base" width="738" height="230"
+                            style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 738px; height: 230px;"></canvas>
+
+                    <canvas class="flot-overlay" width="738" height="230"
+                            style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 738px; height: 230px;"></canvas>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Block: Overview Graph -->
+</div>
+
+
+<div th:fragment="info(user, show_card_link)"
+     class="block overview-block">
+    <div class="block-heading">
+        <div class="main-text h2">
+            Данные пользователя
+            <form method="get" th:action="@{/administrator/depositor/card}" th:if="${show_card_link}">
+                <input type="hidden" name="user" th:value="${user.id}" />
+                <button type="submit" class="btn btn-primary">
+                    Карточка
+                    <span class="glyphicon glyphicon-align-right"></span>
+                </button>
+            </form>
+        </div>
+        <div class="block-controls">
+                                        <span aria-hidden="true"
+                                              class="icon icon-cross icon-size-medium block-control-remove"></span>
+        </div>
+    </div>
+
+    <div class="block-content-outer">
+        <div class="block-content-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <table class="table table-striped table-hover table-condensed">
+                        <thead>
+                        <tr>
+                            <td>Имя</td>
+                            <td>Значение</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>ФИО</td>
+                            <td th:text="${user.deposit.depositor.fio}" />
+                        </tr>
+                        <tr>
+                            <td>Сумма</td>
+                            <td>&#8381; &nbsp;<span
+                                    th:text="${#numbers.formatDecimal(user.deposit.sum, 0, 'COMMA', 2, 'POINT')}"/></td>
+                        </tr>
+                        <tr>
+                            <td>Срок, мес.</td>
+                            <td th:text="${user.deposit.length}"/>
+                        </tr>
+                        <tr>
+                            <td>Организационная форма</td>
+                            <td th:text="#{'depositor.depositorFormType_' + ${user.deposit.depositorFormType}}"/>
+                        </tr>
+                        <tr>
+                            <td>Ставка, %</td>
+                            <td th:text="${user.deposit.percent}"/>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <table class="table table-striped table-hover table-condensed">
+                        <thead>
+                        <tr>
+                            <td>Имя</td>
+                            <td>Значение</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Электронная почта</td>
+                            <td><a th:href="${'mailto:' + user.deposit.depositor.email}" th:text="${user.deposit.depositor.email}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Мобильный телефон</td>
+                            <td><span th:text="${T(com.mfodepositorsacc.formatters.StringFormatters).formatPhone(user.deposit.depositor.mobilePhone)}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Домашний телефон</td>
+                            <td><span class="phone" th:text="${T(com.mfodepositorsacc.formatters.StringFormatters).formatPhone(user.deposit.depositor.homePhone)}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Рабочий телефон</td>
+                            <td><span th:text="${T(com.mfodepositorsacc.formatters.StringFormatters).formatPhone(user.deposit.depositor.workPhone)}" />
+                                <span th:if="${user.deposit.depositor.addtPhone != null}" th:text="${' доб. ' + user.deposit.depositor.addtPhone}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Фактический адрес</td>
+                            <td>
+                                <span th:text="${
+                                    user.deposit.depositor.factIndex + ' ' +
+                                        user.deposit.depositor.factCity.region + ', ' +
+                                        user.deposit.depositor.factCity}"
+                                        />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Регистрация</td>
+                            <td>
+                                <span th:text="${
+                                    user.deposit.depositor.regIndex + ' ' +
+                                        user.deposit.depositor.regCity.region + ', ' +
+                                        user.deposit.depositor.regCity}"
+                                        />
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <table class="table table-striped table-hover table-condensed">
+                        <thead>
+                        <tr>
+                            <td>Имя</td>
+                            <td>Значение</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Гражданство</td>
+                            <td><span
+                                    th:text="#{'depositor.citizen_' + ${user.deposit.depositor.citizen}}"/></td>
+                        </tr>
+                        <tr>
+                            <td>Паспорт</td>
+                            <td><span th:text="${T(com.mfodepositorsacc.formatters.StringFormatters).formatPassportNum(user.deposit.depositor.passportNum)}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Выдан</td>
+                            <td>
+                                <span th:text="${#calendars.format(user.deposit.depositor.passportAccepted, 'dd.mm.YYYY')}" />&nbsp;
+                                <span th:text="${user.deposit.depositor.departmentName}" />
+                                (<span th:text="${T(com.mfodepositorsacc.formatters.StringFormatters).formatDepartmentCode(user.deposit.depositor.departmentCode)}" />)</td>
+                        </tr>
+                        <tr>
+                            <td>Дата рождения</td>
+                            <td><span th:text="${#calendars.format(user.deposit.depositor.birthday,'dd.mm.YYYY')}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Место рождения</td>
+                            <td><span th:text="${user.deposit.depositor.birthplace}" /></td>
+                        </tr>
+                        <tr>
+                            <td>ИНН</td>
+                            <td><span th:text="${user.deposit.depositor.inn}" /></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

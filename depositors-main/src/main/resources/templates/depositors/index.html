@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='depositors')"/>
+<body>
+<div class="container-fluid">
+
+    <!-- START Header Container -->
+    <div id="header-container" th:replace="fragment/header :: header(page='depositors')"/>
+    <!-- END Header Container -->
+
+    <!-- START Body Container -->
+    <div id="body-container">
+        <!-- START Left Column -->
+        <div id="left-column" class=""
+             th:replace="fragment/left-column :: left(page = 'depositors', subpage = 'index')"/>
+        <!-- END Left Column -->
+        <!-- START Right Column -->
+        <div id="right-column">
+            <div class="right-column-content">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1>
+                            <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    <span class="main-text">
+                                        Панель вкладчика
+                                    </span>
+                        </h1>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+
+                <div class="row" th:if="${basepayinmustbecleared != null}">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Не зачислены основные средства</h3>
+                        </div>
+                        <div class="panel-body">
+                            Основная часть вклада до сих пор не зачислена на счет. Вам необходимо внести
+                            &#8381;&nbsp;<span
+                                th:text="${#numbers.formatDecimal(basepayinmustbecleared.sum, 0, 'COMMA', 2, 'POINT')}"/>
+                            на счет для продолжения работы с сервисом. Используйте код <b
+                                th:text="${basepayinmustbecleared.num}"/>
+                            в описании платежа для скорейшего зачисления денег на счет.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" th:with="ls=${(lockedOutcomeSaldo eq null)? null : 'Зарезервировано: ₽ ' + #numbers.formatDecimal(lockedOutcomeSaldo, 0, 'COMMA', 0, 'POINT')}">
+                    <!-- START Информация -->
+                    <div th:replace="fragment/depositors :: param_plate('icon icon-user', ${deposit.id}, 'Номер счета', 4)"/>
+                    <div th:replace="fragment/depositors :: param_plate_w_alert(
+                        'icon icon-dollar', ${'₽ ' + #numbers.formatDecimal(saldo, 0, 'COMMA', 2, 'POINT') + ' / ' +
+                        #numbers.formatDecimal(availableSaldo, 0, 'COMMA', 2, 'POINT')},
+                        'На счету / Доступно для вывода', 4, ${ls}
+                        )" />
+                    <div th:replace="fragment/depositors :: param_plate('icon icon-list-circle',${'%'+deposit.percent}, 'Процентная ставка', 4)"/>
+                    <!-- END Информация -->
+                </div>
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="row">
+                            <!-- START График -->
+                            <div th:replace="fragment/depositors :: deposit-chart"/>
+                            <!-- END График -->
+                        </div>
+                        <div class="row">
+                            <!-- START Логи -->
+                            <div th:each="log : ${moneymotionlogs}">
+                                <div th:replace="fragment/depositors :: logs(${log.key}, ${log.value})"/>
+                            </div>
+                            <!-- END Логи -->
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- START Показатели роста -->
+                        <div th:replace="fragment/depositors :: marketing_plate(${marketing.percentsInYear}, ${marketing.inYear}, 'profit_year', 'за год')"/>
+                        <div th:replace="fragment/depositors :: marketing_plate(${marketing.percentsInMonth}, ${marketing.inMonth}, 'profit_month', 'за месяц')"/>
+                        <div th:replace="fragment/depositors :: marketing_plate(${marketing.percentsInWeek}, ${marketing.inWeek}, 'profit_week', 'за неделю')"/>
+                        <div th:replace="fragment/depositors :: marketing_plate(${marketing.percentsInDay}, ${marketing.inDay}, 'profit_day', 'за день')"/>
+                        <!-- END Показатели роста -->
+
+                        <!-- START Новости -->
+                        <div th:replace="fragment/depositors :: news_block"/>
+                        <!-- END Новости -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- END Right Column -->
+    </div>
+    <!-- END Body Container -->
+    <div th:replace="fragment/scripts_bottom :: scripts(page = 'depositors')"/>
+    <script>
+        $(document).ready(function () {
+            depositorPagesEngine.init($, "depositor");
+        });
+    </script>
+</div>
+<!-- /.container -->
+</body>
+</html>

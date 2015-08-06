@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='administrator')"/>
+<body>
+<div class="container-fluid">
+
+    <!-- START Header Container -->
+    <div id="header-container" th:replace="fragment/header :: header(page='administrator')"/>
+    <!-- END Header Container -->
+
+    <!-- START Body Container -->
+    <div id="body-container">
+        <!-- START Left Column -->
+        <div id="left-column" class=""
+             th:replace="fragment/left-column :: left(page='administrator', subpage='moneymotion')"/>
+        <!-- END Left Column -->
+        <!-- START Right Column -->
+        <div id="right-column">
+            <div class="right-column-content">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1>
+                            <span aria-hidden="true" class="icon icon-dollar"></span>
+                                    <span class="main-text">
+                                        Движение денежных средств
+                                    </span>
+                        </h1>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div th:replace="fragment/depositors :: param_plate('icon icon-dollar', ${mainSumCount}, 'Зачисление основной суммы', 3)"/>
+                    <div th:replace="fragment/depositors :: param_plate('icon icon-dollar', ${addtSumCount}, 'Дополнительные взносы', 3)"/>
+                    <div th:replace="fragment/depositors :: param_plate('icon icon-dollar', ${outComeCount}, 'Вывод средств', 3)"/>
+                    <div th:replace="fragment/depositors :: param_plate('icon icon-dollar', ${closingOutcomeCount}, 'Закрытие вклада', 3)"/>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="block">
+                            <div class="block-heading">
+                                <div class="main-text h2">
+                                    Запросы на движение денежных средств
+                                </div>
+                                <div class="block-controls">
+                                    <span aria-hidden="true"
+                                          class="icon icon-cross icon-size-medium block-control-remove"></span>
+                                    <span aria-hidden="true"
+                                          class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                                </div>
+                            </div>
+                            <div class="block-content-outer">
+                                <div class="block-content-inner">
+                                    <ul id="default-tabs" class="nav nav-tabs">
+                                        <li class="active"><a href="#motion_mainSumDocs" data-toggle="tab">Зачисления
+                                            основной суммы</a>
+                                        </li>
+                                        <li class=""><a href="#motion_addtSumDocs" data-toggle="tab">Дополнительные
+                                            взносы</a>
+                                        </li>
+                                        <li class=""><a href="#motion_outcomeDocs" data-toggle="tab">Вывод средств</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="motion_mainSumDocs">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table th:replace="fragment/money-motion :: adminmotionrequests(${mainSumDocs}, 'mainsumpayin/')" class="table"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="motion_addtSumDocs">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table th:replace="fragment/money-motion :: adminmotionrequests(${addtSumDocs}, 'addtsumpayin/')" class="table"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="motion_outcomeDocs">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table th:replace="fragment/money-motion :: adminmotionrequests(${outcomeDocs}, 'outcome/')" class="table"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Right Column -->
+    </div>
+    <!-- END Body Container -->
+    <div th:replace="fragment/scripts_bottom :: scripts(page = 'administrator', subpage = 'moneymotion')"/>
+    <script>
+        $(document).ready(function () {
+            adminPagesEngine.init($, "administrator/moneymotion/index");
+        });
+    </script>
+</div>
+<!-- /.container -->
+</body>
+</html>

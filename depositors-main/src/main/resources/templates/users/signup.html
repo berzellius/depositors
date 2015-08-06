@@ -1,0 +1,602 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='template')"/>
+<body>
+<div class="container-fluid">
+
+<!-- START Header Container -->
+<div id="header-container" th:replace="fragment/header :: header(page='template')"/>
+<!-- END Header Container -->
+<!-- START Body Container -->
+<div id="body-container">
+<!-- START Left Column -->
+<div id="left-column" class="" th:replace="fragment/left-column :: left"/>
+<!-- END Left Column -->
+<!-- START Right Column -->
+<div id="right-column">
+<div class="right-column-content">
+<div class="row">
+    <div class="col-md-6">
+        <h1>
+            <span aria-hidden="true" class="icon icon-grid-big"></span>
+								<span class="main-text">
+									Регистрация
+								</span>
+        </h1>
+    </div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="block">
+<div class="block-heading">
+    <div class="main-text h2">
+        Регистрация
+    </div>
+    <div class="block-controls">
+        <!--span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+        <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span-->
+    </div>
+</div>
+<div class="block-content-outer">
+<div class="block-content-inner">
+<div id="reg_wizard" class="wizard-container">
+<ul class="nav nav-pills">
+    <li class="active">
+        <a href="#tab1" data-toggle="tab">
+            <span class="icon icon-number-one"></span>
+                                                    <span class="main-text">
+                                                        <span class="h2">Вклад и вкладчик</span>
+                                                        <small>Укажите сумму вклада, срок размещения,<br/>
+                                                            ФИО, мобильный телефон
+                                                        </small>
+                                                    </span>
+        </a>
+    </li>
+    <li>
+        <a href="#tab2" data-toggle="tab">
+            <span class="icon icon-number-two"></span>
+                                                    <span class="main-text">
+                                                        <span class="h2">Местонахождение</span>
+                                                        <small>Контактные данные и адреса</small>
+                                                    </span>
+        </a>
+    </li>
+    <li>
+        <a href="#tab3" data-toggle="tab">
+            <span class="icon icon-number-three"></span>
+                                                    <span class="main-text">
+                                                        <span class="h2">Персональные данные</span>
+                                                        <small>Паспортные данные / гражданство</small>
+                                                    </span>
+        </a>
+    </li>
+    <li>
+        <a href="#tab4" data-toggle="tab">
+            <span class="icon icon-number-four"></span>
+                                                    <span class="main-text">
+                                                        <span class="h2">Завершение регистрации</span>
+                                                        <small>Проверка и отправка данных</small>
+                                                    </span>
+        </a>
+    </li>
+</ul>
+<div class="progress">
+    <div class="progress-bar  progress-bar-warning" role="progressbar"
+         aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+        <span class="sr-only"></span>
+    </div>
+</div>
+<div class="tab-content">
+<div class="tab-pane active" id="tab1">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <div class="other-stats">
+
+                        <div th:if="${reason ne null}">
+                            <p style="color: red">
+                                В процессе регистрации произошла ошибка. Если проблема повторится, обратитесь в
+                                техподдержку.
+                            </p>
+                        </div>
+
+                        <form method="post" id="accountMoneyDataForm">
+
+                            <div class="form-group initial">
+                                <input type="text" class="form-control" name="fio" placeholder="ФИО"/>
+                                <span class="help-block">Укажите фамилию, имя и отчество</span>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group initial">
+                                        <input type="text" class="form-control phone10 mobile" name="mobile"
+                                               placeholder="Мобильный телефон, 10 цифр"/>
+                                        <span class="help-block">Укажите 10 цифр мобильного телефона</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group initial">
+                                        <input type="text" class="form-control" name="email"
+                                               placeholder="Электронная почта"/>
+                                        <span class="help-block">Укажите корректный email</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group preloader">
+                                <img th:src="@{/static/assets/images/additional/preloader.gif}"
+                                     src="static/assets/images/additional/preloader.gif"/>
+                            </div>
+
+                            <div class="form-group initial" style="display: none">
+                                <label>Организационная форма</label>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="depositorFormType"
+                                               id="depositorFormType_PERSON"
+                                               value="PERSON"
+                                               checked="checked"/>
+                                        Физлицо
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="depositorFormType"
+                                               id="depositorFormType_ORGANIZATION"
+                                               value="ORGANIZATION"/>
+                                        Юрлицо
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            &nbsp;
+        </div>
+
+        <div class="col-md-4 deposit_calculation" style="display: none">
+
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <div class="other-stats info" style="display: none">
+                        <table class="table table-striped table-hover table-condensed">
+                            <tbody>
+                            <tr class="length">
+                                <td class="other-stats-icon">
+                                    Вклад на
+                                </td>
+                                <td class="other-stats-number">
+
+                                </td>
+                                <td class="other-stats-text">
+                                    месяцев
+                                </td>
+                            </tr>
+                            <tr class="sum">
+                                <td class="other-stats-icon">
+                                    Сумма
+                                </td>
+                                <td class="other-stats-number">
+
+                                </td>
+                                <td class="other-stats-text">
+                                    рублей
+                                </td>
+                            </tr>
+                            <tr class="percents">
+                                <td class="other-stats-icon">
+                                    Годовая ставка
+                                </td>
+                                <td class="other-stats-number">
+
+                                </td>
+                                <td class="other-stats-text">
+                                    %
+                                </td>
+                            </tr>
+                            <tr class="sumInTheEnd">
+                                <td class="other-stats-icon">
+                                    Сумма в конце
+                                </td>
+                                <td class="other-stats-number">
+
+                                </td>
+                                <td class="other-stats-text">
+                                    рублей
+                                </td>
+                            </tr>
+                            <tr class="profit">
+                                <td class="other-stats-icon">
+                                    Я могу заработать
+                                </td>
+                                <td class="other-stats-number">
+
+                                </td>
+                                <td class="other-stats-text">
+                                    рублей
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="preloader_circle" style="display: block">
+                        <img th:src="@{/static/assets/images/additional/preloader_circle.gif}"
+                             src="static/assets/images/additional/preloader_circle.gif"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tab-pane" id="tab2">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" id="contactsForm">
+                <div class="main-text h3">
+                    Контактный телефон
+                </div>
+                <div class="form-group">
+                    <input type="text"
+                           class="form-control phone10"
+                           name="homephone" placeholder="Домашний телефон"/>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control phone10"
+                                   name="workphone" placeholder="Рабочий телефон"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control numeric"
+                                   name="workphone_addt" placeholder="Добавочный номер"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-text h3">
+                    Адрес фактического проживания
+                </div>
+                <div class="form-group">
+                    <input type="text"
+                           class="form-control ind6"
+                           name="fact-index" placeholder="Индекс"/>
+                    <span class="help-block">Укажите 6 цифр индекса</span>
+                </div>
+                <div data-region-fill="fact" class="region_fill">
+                    <div class="form-group">
+                        <label>Регион</label>
+                        <select name="fact_region" class="form-control" data-type="region"></select>
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label>Населенный пункт</label>
+                        <select name="fact_city" class="form-control" data-type="city"></select>
+                    </div>
+                </div>
+                <div class="main-text h3">
+                    Адрес по месту постоянной регистрации
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="fact_reg_address" name="address_reg_eq_fact" checked="checked"/>
+                        Соответствует адресу фактического проживания
+                    </label>
+                </div>
+                <div class="form-group address_reg">
+                    <input type="text"
+                           class="form-control ind6"
+                           name="reg-index" placeholder="Индекс"/>
+                    <span class="help-block">Укажите 6 цифр индекса</span>
+                </div>
+                <div data-region-fill="reg" class="region_fill address_reg">
+                    <div class="form-group">
+                        <label>Регион</label>
+                        <select name="reg_region" class="form-control" data-type="region"></select>
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label>Населенный пункт</label>
+                        <select name="reg_city" class="form-control" data-type="city"></select>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<div class="tab-pane" id="tab3">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" id="passportForm">
+                <div class="main-text h3">
+                    Гражданство
+                </div>
+                <div class="form-group">
+                    <select name="citizen" class="form-control">
+                        <option value="YES">РФ</option>
+                        <option value="NO">Не резидент РФ</option>
+                    </select>
+                </div>
+                <div class="main-text h3">
+                    Паспортные данные
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control passp10"
+                                   name="passp-num" placeholder="Серия и номер"/>
+                            <span class="help-block">Укажите 10 цифр - 4 цифры серии и 6 цифр номера</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control date"
+                                   name="passp-date-acc" placeholder="Дата выдачи"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="passp-given-by" placeholder="Кем выдан" class="form-control"/>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control code6"
+                                   name="passp-code" placeholder="Код подразделения"/>
+                            <span class="help-block">Укажите 6 цифр - код подразделения</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control date birthday"
+                                   name="passp-birthday" placeholder="Дата рождения"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text"
+                           class="form-control"
+                           name="passp-birth-place" placeholder="Место рождения"/>
+                </div>
+
+                <div class="form-group">
+                    <input type="text"
+                           class="form-control numeric"
+                           name="inn" placeholder="ИНН"/>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="tab-pane" id="tab4">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Завершение регистрации</h2>
+
+            <form id="endRegistration" th:action="@{/signup}" method="post">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Параметр</th>
+                        <th>Значение</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>ФИО</td>
+                        <td>
+                            <input type="hidden" name="fio" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Мобильный телефон</td>
+                        <td>
+                            <input type="hidden" name="mobilePhone" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Электронная почта</td>
+                        <td>
+                            <input type="hidden" name="email" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Организационная форма</td>
+                        <td>
+                            <input type="hidden" name="depositorFormType" value=""/>
+                            <span><b class="opts PERSON">Физлицо</b></span>
+                            <span><b class="opts ORGANIZATION">Юрлицо</b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Срок</td>
+                        <td>
+                            <input type="hidden" name="length" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Сумма</td>
+                        <td>
+                            <input type="hidden" name="sum" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Домашний телефон</td>
+                        <td>
+                            <input type="hidden" name="homePhone" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Рабочий телефон</td>
+                        <td>
+                            <input type="hidden" name="workPhone" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Добавочный</td>
+                        <td>
+                            <input type="hidden" name="addtPhone" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Фактический адрес
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Индекс</td>
+                        <td>
+                            <input type="hidden" name="factIndex" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Населенный пункт</td>
+                        <td>
+                            <input type="hidden" name="factCity" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Регистрация
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Индекс</td>
+                        <td>
+                            <input type="hidden" name="regIndex" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Населенный пункт</td>
+                        <td>
+                            <input type="hidden" name="regCity" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Гражданство</td>
+                        <td>
+                            <input type="hidden" name="citizen" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Паспортные данные
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Номер паспорта</td>
+                        <td>
+                            <input type="hidden" name="passportNum" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Выдан</td>
+                        <td>
+                            <input type="hidden" name="passportAccepted" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Кем</td>
+                        <td>
+                            <input type="hidden" name="departmentName" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Код подраздления</td>
+                        <td>
+                            <input type="hidden" name="departmentCode" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Дата рождения</td>
+                        <td>
+                            <input type="hidden" name="birthday" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Место рождения</td>
+                        <td>
+                            <input type="hidden" name="birthplace" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ИНН</td>
+                        <td>
+                            <input type="hidden" name="inn" value=""/>
+                            <span><b class="value"></b></span>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="form-control">
+                    <input type="submit" value="Все верно"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<ul class="pager wizard">
+    <li class="previous first disabled" style="display:none;"><a
+            href="#">First</a></li>
+    <li class="previous disabled"><a href="#">Previous</a></li>
+    <li class="next last" style="display:none;"><a href="#">Last</a></li>
+    <li class="next"><a href="#">Next</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END Body Container -->
+</div>
+<!-- /.container -->
+
+<div th:replace="fragment/scripts_bottom :: scripts(page = 'signup')"/>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='template')"/>
+<body>
+<div class="container-fluid">
+    <!-- START Header Container -->
+    <div id="header-container" th:replace="fragment/header :: header(page='template')" />
+    <!-- END Header Container -->
+    <!-- START Body Container -->
+    <div id="body-container">
+        <!-- START Left Column -->
+        <div id="left-column" class="" th:replace="fragment/left-column :: left" />
+        <!-- END Left Column -->
+        <!-- START Right Column -->
+        <div id="right-column">
+
+            <div class="right-column-content">
+                <!-- START Block: Start Here -->
+                <div class="block">
+                    <div class="block-heading"> <!-- Where the title and controls of the block go -->
+                        <div class="main-text h2"> <!-- The title of the block (required) -->
+                            Building Block
+                        </div>
+                        <div class="block-controls"> <!-- Block controls (optional. add and remove controls as you please) -->
+                            <!-- See after the code chuck for how to work with these controls -->
+                            <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                            <span aria-hidden="true" class="icon icon-settings icon-size-medium block-control-settings" data-toggle="modal" data-target="#modal-block-control-settings-1"></span>
+                            <span aria-hidden="true" class="icon icon-refresh icon-size-medium block-control-refresh"></span>
+                            <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                        </div>
+                    </div>
+                    <div class="block-content-outer"> <!-- Content area wrapper. Nothing goes here -->
+                        <div class="block-content-inner">
+                            <!-- Main content area. Put all your content here. All bootstrap tags allowed. Anything goes. -->
+                            ...your awesome site starts here...
+                        </div>
+                    </div>
+                </div>
+                <!-- END Block -->
+            </div>
+            <!-- START Footer Container -->
+            <div id="footer-container" th:replace="fragment/footer-container :: footer" />
+            <!-- END Footer Container -->
+        </div>
+        <!-- END Right Column -->
+    </div>
+    <!-- END Body Container -->
+</div>
+<!-- /.container -->
+
+<div th:replace="fragment/scripts_bottom :: scripts" />
+
+</body>
+</html>

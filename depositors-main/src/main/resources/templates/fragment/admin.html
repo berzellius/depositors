@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head/>
+<body>
+
+<table class="table table-striped table-hover table-condensed"  th:fragment="sumsettings_table(depositorTypeSettings,reasonSumSettings,nonConsistent)">
+    <thead>
+    <tr>
+        <td>Сумма от</td>
+        <td>Срок от, мес.</td>
+        <td>Срок до, мес.</td>
+        <td/>
+        <td>Условия</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${reasonSumSettings != null}">
+        <td colspan="5">
+            <p style="color: red" th:switch="${reasonSumSettings}">
+                <span th:case="${T(com.mfodepositorsacc.exceptions.DepositSettingsSavingException.Reason).SUM_OUT_OF_RANGE}"
+                      th:text="${'Недопустимое значение для суммы!'}" />
+
+                <span th:case="${T(com.mfodepositorsacc.exceptions.DepositSettingsSavingException.Reason).DUPLICATE}"
+                      th:text="${'Повторяющееся значение суммы!'}" />
+
+                <span th:case="${T(com.mfodepositorsacc.exceptions.DepositSettingsSavingException.Reason).EMPTY_FIELDS}"
+                      th:text="${'Поля не должны быть пустыми!'}" />
+
+                <span th:case="${T(com.mfodepositorsacc.exceptions.DepositSettingsSavingException.Reason).ZERO_VALUES}"
+                      th:text="${'Недопустимы нулевые значения!'}" />
+            </p>
+        </td>
+    </tr>
+    <tr id="sumSettings_add"  th:class="${(nonConsistent == true)? 'danger' : ''}">
+        <form method="post" class="sumSettingsForm"
+              th:action="@{/ajax/admin/depositors/sumsettings}">
+        </form>
+        <td>
+            <input type="hidden" class="sumSettingsForm" name="depositorTypeSettings"
+                   th:value="${depositorTypeSettings.id}" />
+            <input type="text" class="sumSettingsForm"
+                   th:if="${nonConsistent != true}"
+                   name="sumFrom"
+                   />
+            <input type="text" class="sumSettingsForm"
+                   th:if="${nonConsistent == true}"
+                   name="sumFrom" th:value="${#numbers.formatDecimal(depositorTypeSettings.minSum, 0, 'COMMA', 0, 'POINT')}" disabled="disabled"
+                    />
+            <input type="hidden" class="sumSettingsForm"
+                   th:if="${nonConsistent == true}"
+                   name="sumFrom" th:value="${depositorTypeSettings.minSum}"
+                    />
+        </td>
+        <td>
+            <input type="text" class="sumSettingsForm"
+                   name="minLength" />
+        </td>
+        <td>
+            <input type="text" class="sumSettingsForm"
+                   name="maxLength" />
+        </td>
+        <td>
+            <p>
+                <button type="submit"
+                        class="btn btn-success sumSettingsForm">
+                    Добавить
+                </button>
+            </p>
+        </td>
+        <td />
+    </tr>
+    <tr th:each="sumSettings : ${depositorTypeSettings.sumSettingsList}"
+        id="${'sumSettings_' + sumSettings.id}" th:class="${#lists.contains(nonConsistentSumSettings, sumSettings.id)? 'danger' : '' }" >
+        <form method="post" class="sumSettingsForm"
+              th:action="@{'/ajax/admin/depositors/sumsettings/' + ${sumSettings.id}}">
+        </form>
+        <td>
+            <!--input type="hidden" class="sumSettingsForm" name="id"
+                   th:value="${sumSettings.id}"/-->
+            <input type="hidden" class="sumSettingsForm" name="_method" value="PUT" />
+            <input type="text" class="sumSettingsForm"
+                   name="sumFrom"
+                   th:value="${#numbers.formatDecimal(sumSettings.sumFrom, 0, 'COMMA', 0, 'POINT')}"/>
+        </td>
+        <td>
+            <input type="text" class="sumSettingsForm"
+                   name="minLength"
+                   th:value="${sumSettings.minLength}"/>
+        </td>
+        <td>
+            <input type="text" class="sumSettingsForm"
+                   name="maxLength"
+                   th:value="${sumSettings.maxLength}"/>
+        </td>
+        <td>
+            <p>
+                <button type="submit"
+                        class="btn btn-primary sumSettingsForm">
+                    Сохранить
+                </button>
+            </p>
+            <p>
+                <button type="button"
+                        class="btn btn-danger delete sumSettingsForm">
+                    Удалить
+                </button>
+            </p>
+        </td>
+
+        <td>
+            <table th:replace="fragment/admin :: percents_table(${sumSettings},null,${#lists.contains(nonConsistentSumSettings, sumSettings.id)})"
+                   />
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="table table-striped table-hover table-condensed" th:fragment="percents_table(sumSettings,reasonPercents,nonConsistent)">
+    <thead>
+    <tr>
+        <td>Срок от, мес</td>
+        <td>Ставка, %</td>
+        <td></td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:if="${reasonPercents != null}">
+        <td colspan="4">
+            <p style="color: red" th:switch="${reasonPercents}">
+                <span th:case="${T(com.mfodepositorsacc.exceptions.DepositSettingsSavingException.Reason).LENGTH_OUT_OF_RANGE}"
+                        th:text="${'Недопустимое значение для срока!'}" />
+
+                <span th:case="${T(com.mfodepositorsacc.exceptions.DepositSettingsSavingException.Reason).DUPLICATE}"
+                      th:text="${'Повторяющееся значение срока!'}" />
+
+                <span th:case="${T(com.mfodepositorsacc.exceptions.DepositSettingsSavingException.Reason).EMPTY_FIELDS}"
+                      th:text="${'Поля не должны быть пустыми!'}" />
+
+                <span th:case="${T(com.mfodepositorsacc.exceptions.DepositSettingsSavingException.Reason).ZERO_VALUES}"
+                      th:text="${'Недопустимы нулевые значения!'}" />
+            </p>
+        </td>
+    </tr>
+    <tr id="percents_add" th:class="${(nonConsistent == true)? 'danger' : ''}">
+        <form method="post" class="percentsForm sumSettingsFormChild"
+              th:action="@{/ajax/admin/depositors/percents}">
+        </form>
+        <td>
+            <input type="hidden" name="sumSettings" th:value="${sumSettings.id}" class="percentsForm"  />
+            <!-- is Consistent -->
+            <input th:if="${nonConsistent != true}" type="text" name="lengthFrom"
+                   class="percentsForm" />
+            <!-- is nonConsistent -->
+            <input th:if="${nonConsistent == true}" type="text" disabled="disabled" th:value="${sumSettings.minLength}" name="lengthFrom"
+                   class="percentsForm" />
+            <input th:if="${nonConsistent == true}" type="hidden" name="lengthFrom"
+                   class="percentsForm" th:value="${sumSettings.minLength}" />
+
+        </td>
+        <td>
+            <input type="text" name="percent"
+                   class="percentsForm" />
+        </td>
+        <td colspan="2">
+            <button type="submit"
+                    class="btn btn-success percentsForm">
+                Добавить
+            </button>
+        </td>
+    </tr>
+    <tr th:each="percents : ${sumSettings.percentsList}" th:id="${'percents_' + percents.id}">
+        <form method="post" class="percentsForm sumSettingsFormChild"
+              th:action="@{'/ajax/admin/depositors/percents/' + ${percents.id}}">
+        </form>
+        <td>
+            <!--input type="hidden" name="sumSettings"
+                   class="percentsForm" th:value="${sumSettings.id}" /-->
+            <input type="hidden"  class="percentsForm" name="_method" value="PUT" />
+            <!--input type="hidden" name="id"
+                   class="percentsForm"
+                   th:value="${percents.id}"/ -->
+            <input type="text" name="lengthFrom"
+                   class="percentsForm"
+                   th:value="${percents.lengthFrom}" />
+        </td>
+        <td>
+            <input type="text" name="percent"
+                   class="percentsForm"
+                   th:value="${percents.percent}"/>
+        </td>
+        <td>
+            <button type="submit"
+                    class="btn btn-primary percentsForm">
+                Сохранить
+            </button>
+        </td>
+        <td>
+            <button type="button"
+                    class="btn btn-danger delete percentsForm">
+                Удалить
+            </button>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

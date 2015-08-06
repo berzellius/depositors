@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='notfound')"/>
+<body>
+<div class="container-fluid">
+
+    <!-- START Header Container -->
+    <div id="header-container" th:replace="fragment/header :: header(page='template')"/>
+    <!-- END Header Container -->
+
+    <!-- START Body Container -->
+    <div id="body-container">
+        <!-- START Left Column -->
+        <div id="left-column" class="" th:replace="fragment/left-column :: left"/>
+        <!-- END Left Column -->
+        <!-- START Right Column -->
+        <div id="right-column">
+            <div class="right-column-content">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1>
+                            <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    <span class="main-text">
+                                        Страница не найдена
+                                    </span>
+                        </h1>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <!-- END Right Column -->
+    </div>
+</div>
+<!-- /.container -->
+</body>
+</html>

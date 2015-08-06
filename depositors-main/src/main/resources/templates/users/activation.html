@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: head(page='activation')"/>
+<body>
+<div class="container-fluid">
+
+    <!-- START Header Container -->
+    <div id="header-container" th:replace="fragment/header :: header(page='activation')"/>
+    <!-- END Header Container -->
+
+    <!-- START Body Container -->
+    <div id="body-container">
+        <div class="standalone-page registration-page">
+            <div class="standalone-page-logo">
+                <img th:src="@{/static/assets/images/required/logo-default.png}"
+                     src="assets/images/required/logo-default.png" width="156" height="44" alt="Logo" />
+            </div>
+            <div class="standalone-page-top-border">
+                <span class="border-block bg-color-green"></span>
+                <span class="border-block bg-color-orange"></span>
+                <span class="border-block bg-color-yellow"></span>
+                <span class="border-block bg-color-blue"></span>
+                <span class="border-block bg-color-red"></span>
+                <span class="border-block bg-color-lime"></span>
+                <span class="border-block bg-color-purple"></span>
+            </div>
+            <div class="standalone-page-block">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 class="heading">
+                            <span aria-hidden="true" class="icon icon-user"></span>
+								<span class="main-text" th:if="${mode == null}">
+									Активация пользователя
+								</span>
+                                <span class="main-text" th:if="${mode == 'restorePass'}">
+									Сброс пароля
+								</span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div th:if="${reason != null}" th:switch="${reason}">
+                            <p th:case="${T(com.mfodepositorsacc.exceptions.WrongInputDataException.Reason).PASSWORD_MISMATCH">
+                                <span style="color: red">Пароли не совпадают!</span>
+                            </p>
+                        </div>
+
+                        <form role="form" th:with="link = ${(mode == null)? 'users/activation' : 'users/restore_pass_link'}" class="registration-form form-horizontal bv-form" method="post" th:action="@{'/' + ${link}}" novalidate="novalidate">
+                            <button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+                            <div class="form-group has-feedback">
+                                <label class="col-sm-3 control-label">Логин</label>
+                                <div class="col-sm-9">
+                                    <span><b th:text="${user.username}" /></span>
+                                    <input type="hidden" name="code" th:value="${user.activationCode}" />
+                                </div>
+                            </div>
+                            <div class="form-group has-feedback has-success">
+                                <label for="inputPassword" class="col-sm-3 control-label">Пароль</label>
+                                <div class="col-sm-9">
+                                    <input autocomplete="off" class="form-control" id="inputPassword" placeholder="Password" type="password" name="password" data-bv-field="password" />
+                                    <i class="form-control-feedback icon icon-check" data-bv-icon-for="password" style="display: block;" />
+                                    <small class="help-block" data-bv-validator="notEmpty" data-bv-for="password" data-bv-result="VALID" style="display: none;">The password is required and cannot be empty</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="password" data-bv-result="VALID" style="display: none;">The password must be between 8 and 30 characters long</small></div>
+                            </div>
+                            <div class="form-group has-feedback has-success">
+                                <label for="inputPasswordConfirm" class="col-sm-3 control-label">Повторите пароль</label>
+                                <div class="col-sm-9">
+                                    <input autocomplete="off" class="form-control" id="inputPasswordConfirm" placeholder="Confirm Password" type="password" name="passwordConfirm" data-bv-field="passwordConfirm" />
+                                    <i class="form-control-feedback icon icon-check" data-bv-icon-for="passwordConfirm" style="display: block;"></i>
+                                    <small class="help-block" data-bv-validator="identical" data-bv-for="passwordConfirm" data-bv-result="VALID" style="display: none;">The password and its confirm are not the same</small></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button type="submit" class="btn btn-success" disabled="disabled" th:if="${mode == null}" >Активировать</button>
+                                    <button type="submit" class="btn btn-success" disabled="disabled" th:if="${mode == 'restorePass'}" >Сбросить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Body Container -->
+    <div th:replace="fragment/scripts_bottom :: scripts(page = 'activation')"/>
+</div>
+<!-- /.container -->
+</body>
+</html>

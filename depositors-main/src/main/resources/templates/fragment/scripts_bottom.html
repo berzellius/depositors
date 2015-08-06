@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+        <html xmlns:th="http://www.thymeleaf.org">
+            <head></head>
+            <body>
+                <div th:fragment="scripts">
+                    <!-- Placed at the end of the document so the pages load faster -->
+                    <!-- Required JS Files -->
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/jquery-1.11.1.min.js}" src="static/assets/js/required/jquery-1.11.1.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.js}" src="static/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/bootstrap/bootstrap.min.js}" src="static/assets/js/required/bootstrap/bootstrap.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/jquery.easing.1.3-min.js}" src="static/assets/js/required/jquery.easing.1.3-min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/jquery.mCustomScrollbar.min.js}" src="static/assets/js/required/jquery.mCustomScrollbar.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/misc/jquery.mousewheel-3.0.6.min.js}" src="static/assets/js/required/misc/jquery.mousewheel-3.0.6.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/misc/retina.min.js}" src="static/assets/js/required/misc/retina.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/icheck.min.js}" src="static/assets/js/required/icheck.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/misc/jquery.ui.touch-punch.min.js}" src="static/assets/js/required/misc/jquery.ui.touch-punch.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/required/circloid-functions.js}" src="static/assets/js/required/circloid-functions.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/common.js}" src="static/assets/js/common.js" ></script>
+
+                    <!-- Optional JS Files -->
+                    <!-- add optional JS plugin files here -->
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/jquery.mask.min.js}" src="static/assets/js/optional/jquery.mask.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/jquery.maskMoney.min.js}" src="static/assets/js/optional/jquery.maskMoney.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/switchery.min.js}" src="static/assets/js/optional/switchery.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/powerange.min.js}" src="static/assets/js/optional/powerange.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/jquery.bootstrap-touchspin.min.js}" src="static/assets/js/optional/jquery.bootstrap-touchspin.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/bootstrap-tagsinput.min.js}" src="static/assets/js/optional/bootstrap-tagsinput.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/misc/typeahead.bundle.min.js}" src="static/assets/js/optional/misc/typeahead.bundle.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/misc/moment.js}" src="static/assets/js/optional/misc/moment.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/bootstrap-datetimepicker.min.js}" src="static/assets/js/optional/bootstrap-datetimepicker.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/bootstrap-multiselect.min.js}" src="static/assets/js/optional/bootstrap-multiselect.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/ckeditor/ckeditor.js}" src="static/assets/js/optional/ckeditor/ckeditor.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/ckeditor/adapters/jquery.js}" src="static/assets/js/optional/ckeditor/adapters/jquery.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/jquery.bootstrap.wizard.min.js}" src="static/assets/js/optional/jquery.bootstrap.wizard.min.js"></script>
+                    <script type="text/javascript" th:src="@{/static/assets/js/optional/circloid-functions-optional.js}" src="static/assets/js/optional/circloid-functions-optional.js"></script>
+
+
+
+
+
+                    <!-- REQUIRED: User Editable JS Files -->
+                    <script type="text/javascript" th:src="@{/static/assets/js/script.js}" src="static/assets/js/script.js"></script>
+                    <!-- add additional User Editable files here -->
+
+                    <!-- Demo JS Files -->
+                    <!--script type="text/javascript" th:src="@{/static/assets/js/demo-files/form-extras.js}" src="static/assets/js/demo-files/form-extras.js"></script-->
+
+                    <!-- Signup -->
+                    <script th:if="${page == 'signup'}" type="text/javascript" th:src="@{/static/assets/js/signup.js}" src="static/assets/js/signup.js"></script>
+
+                    <!-- Depositors -->
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/flot/jquery.flot.min.js}" src="assets/js/optional/flot/jquery.flot.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/flot/jquery.flot.JUMlib.min.js}" src="assets/js/optional/flot/jquery.flot.JUMlib.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/flot/jquery.flot.resize.min.js}" src="assets/js/optional/flot/jquery.flot.resize.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/flot/jquery.flot.tooltip.min.js}" src="assets/js/optional/flot/jquery.flot.tooltip.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/flot/jquery.flot.pie.min.js}" src="assets/js/optional/flot/jquery.flot.pie.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/flot/jquery.flot.stack.min.js}" src="assets/js/optional/flot/jquery.flot.stack.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/flot/jquery.flot.time.min.js}" src="assets/js/optional/flot/jquery.flot.time.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/flot/jquery.flot.orderBars.js}" src="assets/js/optional/flot/jquery.flot.orderBars.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/easy-pie-chart/jquery.easypiechart.min.js}" src="assets/js/optional/easy-pie-chart/jquery.easypiechart.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/optional/bootstrap-datetimepicker.min.js}" src="assets/js/optional/bootstrap-datetimepicker.min.js"></script>
+                    <script type="text/javascript" th:if="${page == 'depositors'}" th:src="@{/static/assets/js/depositors.js}" src="assets/js/optional/bootstrap-datetimepicker.min.js"></script>
+
+                    <!-- Activation -->
+                    <script type="text/javascript" th:if="${page == 'activation'}" th:src="@{/static/assets/js/activation.js}" src="static/assets/js/activation.js" />
+                    <script type="text/javascript" th:if="${page == 'activation' or page == 'forgot_password'}" th:src="@{/static/assets/js/optional/bootstrapValidator.min.js}" src="static/assets/js/optional/bootstrapValidator.min.js" />
+
+                    <!-- Administrator -->
+                    <script type="text/javascript" th:if="${page == 'administrator'}" th:src="@{/static/assets/js/admin.js}" />
+
+                    <!-- Forgot password -->
+                    <script type="text/javascript" th:if="${page == 'forgot_password'}" th:src="@{/static/assets/js/forgot_password.js}" src="static/assets/js/forgot_password.js" />
+                </div>
+            </body>
+        </html>

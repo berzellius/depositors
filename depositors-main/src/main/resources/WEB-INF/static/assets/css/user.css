@@ -1,0 +1,12 @@
+.other-stats-number.red_sum span{
+    color: red;
+    font-weight: bold;
+}
+
+.other-stats-number.green_sum span{
+    color: green;
+    font-weight: bold;
+}
+.c-widget-size-small-3line{
+    height: 82px;
+}

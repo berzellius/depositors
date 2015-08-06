@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head/>
+<body>
+<table th:fragment="adminmotionrequests(docs, url)" class="table">
+    <thead>
+    <tr>
+        <td>Счет</td>
+        <td>Сумма</td>
+        <td>Код платежа</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${reason != null}">
+        <td colspan="4">
+            <span style="font-weight: bold; color: red">
+                <b th:if="${
+                    reason instanceof T(com.mfodepositorsacc.billing.exception.DocumentNotFoundException) or
+                    reason instanceof T(com.mfodepositorsacc.billing.exception.IllegalDocumentStateException)
+                }">
+                    Запрос отменен или не существует!
+                </b>
+            </span>
+        </td>
+    </tr>
+    <tr th:each="deposit : ${docs}">
+        <form method="post" class="moneyMotionForm"
+              th:action="@{'/ajax/admin/moneymotion/' + ${url}}">
+            <input type="hidden" name="doc_num" th:value="${deposit.document.num}" class="moneyMotionForm"/>
+        </form>
+        <td>
+            <a th:href="@{/administrator/depositor/cardbydeposit(depositor=${deposit.depositor.id})}"><span th:text="${deposit.document.depositId}"/> [<span th:text="${deposit.depositor.fio}"/>]</a>
+        </td>
+        <td>
+            <span><b>&#8381;</b></span>
+            <span><b th:text="${#numbers.formatDecimal(deposit.document.sum, 0, 'COMMA', 0, 'POINT')}"/></span>
+        </td>
+        <td><span th:text="${deposit.document.num}"/></td>
+        <td>
+            <button type="submit"
+                    class="btn btn-primary moneyMotionForm">
+                Подтвердить
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:fragment="motionrequests(log, active, url, id1, id2, desc, action, showAddForm)"
+     th:class="${'tab-pane ' + ((active)? 'active' : '')}" th:id="${'motion_' + id1}">
+    <div class="row">
+        <div class="col-md-12">
+            <table>
+                <tr th:if="${redSaldo != null and redSaldo}">
+                    <td colspan="3"><span style="color: red">Недостаточно средств!</span></td>
+                </tr>
+                <tr th:if="${reason != null}">
+                    <td colspan="3">
+                        <span style="font-weight: bold; color: red">
+                            <b th:if="${
+                                reason instanceof T(com.mfodepositorsacc.billing.exception.IllegalDocumentStateException)
+                            }">
+                                Запрос уже подтвержден или не существует!
+                            </b>
+                        </span>
+                    </td>
+                </tr>
+                <tr th:if="${showAddForm}">
+                    <form th:action="@{'/ajax/depositor/moneymotion/' + ${url}}"
+                          class="form-inline moneyMotionForm" method="POST"></form>
+                    <td>
+                        <span><b>&#8381;</b>&nbsp;</span>
+                    </td>
+                    <td>
+                        <input type="text" name="sum"
+                               class="form-control moneyMotionForm"
+                               th:id="${id2}"
+                               th:placeholder="${desc}"/>
+                    </td>
+                    <td>
+                        <button type="submit"
+                                class="btn btn-success moneyMotionForm" th:text="${action}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td>Сумма</td>
+                                <td>Код платежа</td>
+                                <td>Действия</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="document : ${log}">
+                                <form th:action="@{('/ajax/depositor/moneymotion/' + ${url})(code=${document.num})}"
+                                      class="moneyMotionForm" method="POST"></form>
+                                <td>
+                                    <span><b>&#8381;</b></span>
+                                    <span><b th:text="${#numbers.formatDecimal(document.sum, 0, 'COMMA', 0, 'POINT')}"/></span>
+                                </td>
+                                <td><b th:text="${document.num}"/></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger delete moneyMotionForm">
+                                        Отменить
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
