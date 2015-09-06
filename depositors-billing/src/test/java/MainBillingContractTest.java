@@ -65,14 +65,16 @@ public class MainBillingContractTest {
 
         entityManager.persist(account);
     }
+*/
+
 
     @Test
     public void alwaysOkTest(){
         System.out.println("always ok");
     }
-*/
 
-    @Test
+
+/*    @Test
     public void simpleSeekAcc() {
 
         LinkedHashMap<String, String> analytics = new LinkedHashMap<String, String>();

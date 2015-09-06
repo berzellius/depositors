@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ViewResolver;
+
+import java.util.Locale;
 
 @Controller
 public class IndexController {
@@ -25,8 +29,7 @@ public class IndexController {
 
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String indexPage(){
-
+    public String indexPage() throws Exception {
 
         User user = userLoginUtil.getCurrentLogInUser();
 
@@ -43,6 +46,16 @@ public class IndexController {
         }
 
         return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/testpdf", method = RequestMethod.GET)
+     public ModelAndView testPdf(){
+        return new ModelAndView("pdfView", "test", "test");
+    }
+
+    @RequestMapping(value = "/testpdf1", method = RequestMethod.GET)
+    public ModelAndView testPdf1(){
+        return new ModelAndView("pdfView1", "test", "test");
     }
 
 }

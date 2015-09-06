@@ -7,6 +7,7 @@ import com.mfodepositorsacc.interceptors.AddTemplatesDataInterceptor;
 import com.mfodepositorsacc.service.*;
 import com.mfodepositorsacc.settings.LocalProjectSettings;
 import com.mfodepositorsacc.settings.ProjectSettings;
+import com.mfodepositorsacc.settings.RemoteProjectSettings;
 import com.mfodepositorsacc.util.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +19,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -69,7 +73,7 @@ public class ServiceBeanConfiguration {
     }
 
     @Bean
-    public MultipartResolver multipartResolver(){
+    public MultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
         commonsMultipartResolver.setDefaultEncoding("UTF-8");
         commonsMultipartResolver.setMaxUploadSize(10 * 1024 * 1024);
@@ -175,4 +179,6 @@ public class ServiceBeanConfiguration {
     public MoneyMotionRowUtil moneyMotionRowUtil(){
         return new MoneyMotionRowUtilImpl();
     }
+
+
 }

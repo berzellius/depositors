@@ -18,4 +18,6 @@ public interface ProjectSettings {
 
     public String getSiteUrl();
 
+    public String fontsDirectoryLocation();
+
 }

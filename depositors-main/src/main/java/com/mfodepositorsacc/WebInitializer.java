@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletContext;
@@ -45,8 +47,14 @@ public class WebInitializer extends SpringBootServletInitializer {
             }
         };
 
+    }
 
-
+    @Bean
+    public ViewResolver viewResolver(){
+        ResourceBundleViewResolver resolver = new ResourceBundleViewResolver();
+        resolver.setBasename("views");
+        resolver.setOrder(2);
+        return resolver;
     }
 
 }

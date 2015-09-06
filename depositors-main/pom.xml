@@ -5,7 +5,7 @@
 
     <artifactId>depositors-main</artifactId>
     <groupId>com.mfodepositorsacc</groupId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <name>Основной сервер системы учета вкладчиков</name>
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
@@ -93,6 +93,14 @@
             <version>1.1.8.RELEASE</version>
         </dependency>
         <!-- Spring framework ends -->
+
+        <!-- IText -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.6</version>
+        </dependency>
+
 
         <dependency>
             <groupId>javax.mail</groupId>

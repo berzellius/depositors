@@ -21,6 +21,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
+import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -114,6 +115,7 @@ public class Thymeleaf {
             for (ITemplateResolver templateResolver : this.templateResolvers) {
                 engine.addTemplateResolver(templateResolver);
             }
+
             for (IDialect dialect : this.dialects) {
                 engine.addDialect(dialect);
             }
@@ -165,7 +167,8 @@ public class Thymeleaf {
                     String[].class));
             // This resolver acts as a fallback resolver (e.g. like a
             // InternalResourceViewResolver) so it needs to have low precedence
-            resolver.setOrder(Ordered.LOWEST_PRECEDENCE - 5);
+            //resolver.setOrder(Ordered.LOWEST_PRECEDENCE - 5);
+            resolver.setOrder(1);
             return resolver;
         }
 

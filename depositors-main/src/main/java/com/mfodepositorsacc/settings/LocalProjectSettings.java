@@ -26,4 +26,9 @@ public class LocalProjectSettings extends CommonProjectSettings {
     public String getSiteUrl() {
         return "http://localhost:8080/";
     }
+
+    @Override
+    public String fontsDirectoryLocation() {
+        return "c:/windows/fonts/";
+    }
 }
