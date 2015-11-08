@@ -38,6 +38,15 @@ var adminPagesEngine = {
 
     },
     services: {
+        tinyMCE: {
+            pages: ["administrator/depositors/card"],
+            init: function(engine){
+                tinymce.init({
+                    selector: "textarea.newsItem",
+                    language: "ru"
+                });
+            }
+        },
         userInfoService: {
             pages: ["administrator/index"],
             engine: null,

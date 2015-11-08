@@ -180,5 +180,11 @@ public class ServiceBeanConfiguration {
         return new MoneyMotionRowUtilImpl();
     }
 
+    @Bean
+    public NewsService newsService(){
+        return new NewsServiceImpl();
+    }
 
+    @Bean
+    public ManagedUnitsService managedUnitsService(){ return new ManagedUnitsServiceImpl();}
 }

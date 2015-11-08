@@ -3041,6 +3041,18 @@ ul.mainnav-horizontal > li > ul > li > ul > li > ul > li > ul > li > ul > li > a
   line-height: 1.618;
   color: #373737;
 }
+.c-widget .c-wdiget-content-block.news p.dtm{
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.c-widget .c-wdiget-content-block.news .c-widget-content-heading{
+  font-size: 16px;
+  line-height: 1;
+}
+.c-widget .c-wdiget-content-block.news{
+  max-height: 210px !important;
+  padding:0 !important;
+}
 .c-widget .c-wdiget-content-block .c-widget-content-body {
   text-align: justify;
   margin-bottom: 10px;

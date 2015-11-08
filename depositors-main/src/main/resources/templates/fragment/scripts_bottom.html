@@ -67,6 +67,8 @@
 
                     <!-- Administrator -->
                     <script type="text/javascript" th:if="${page == 'administrator'}" th:src="@{/static/assets/js/admin.js}" />
+                    <!-- Depositor card -->
+                    <script type="text/javascript" th:if="${page == 'administrator' and subpage == 'depositor_card'}" th:src="@{/static/assets/js/tinymce/tinymce.jquery.min.js}" src="static/assets/js/tinymce/tinymce.jquery.min.js" />
 
                     <!-- Forgot password -->
                     <script type="text/javascript" th:if="${page == 'forgot_password'}" th:src="@{/static/assets/js/forgot_password.js}" src="static/assets/js/forgot_password.js" />

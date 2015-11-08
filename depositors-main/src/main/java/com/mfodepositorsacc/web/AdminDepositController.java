@@ -1,8 +1,11 @@
 package com.mfodepositorsacc.web;
 
 import com.mfodepositorsacc.dmodel.Deposit;
+import com.mfodepositorsacc.dmodel.NewsItem;
 import com.mfodepositorsacc.dmodel.User;
+import com.mfodepositorsacc.exceptions.WrongInputDataException;
 import com.mfodepositorsacc.service.DepositService;
+import com.mfodepositorsacc.service.NewsService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,9 @@ import java.math.BigDecimal;
 @Controller
 @RequestMapping(value = "/administrator/deposit")
 public class AdminDepositController extends BaseController {
+
+    @Autowired
+    NewsService newsService;
 
     @Autowired
     DepositService depositService;
@@ -38,6 +44,25 @@ public class AdminDepositController extends BaseController {
         }
 
         depositService.updatePercent(deposit, percent);
+
+        redirectAttributes.addAttribute("user", user.getId());
+        return "redirect:/administrator/depositor/card";
+    }
+
+    @RequestMapping(value = "/news", method = RequestMethod.POST)
+    public String news(
+            @RequestParam(value = "deposit")
+            Deposit deposit,
+            @RequestParam(value = "user")
+            User user,
+            NewsItem newsItem,
+            final RedirectAttributes redirectAttributes
+    ){
+        try {
+            newsService.createNewsItemForOneUser(user, newsItem);
+        } catch (WrongInputDataException e) {
+            redirectAttributes.addFlashAttribute("newsReason", e.getReason());
+        }
 
         redirectAttributes.addAttribute("user", user.getId());
         return "redirect:/administrator/depositor/card";

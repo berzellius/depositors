@@ -48,7 +48,7 @@ public class SchedulerImpl implements MainScheduler {
 
     }
 
-    @Scheduled(fixedDelay = 20000)
+    @Scheduled(fixedDelay = 3600000)
     @Override
     public void depositsCapitalization(){
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();

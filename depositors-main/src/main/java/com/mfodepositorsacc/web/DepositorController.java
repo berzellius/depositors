@@ -5,6 +5,7 @@ import com.mfodepositorsacc.dmodel.UserRole;
 import com.mfodepositorsacc.service.BillingSystemUtils;
 import com.mfodepositorsacc.service.DepositCalculationService;
 import com.mfodepositorsacc.service.DepositService;
+import com.mfodepositorsacc.service.NewsService;
 import com.mfodepositorsacc.util.UserLoginUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,9 @@ public class DepositorController {
     @Autowired
     DepositService depositService;
 
+    @Autowired
+    NewsService newsService;
+
     @RequestMapping
     public String index(
             Model model
@@ -57,6 +61,9 @@ public class DepositorController {
         model.addAttribute("lockedOutcomeSaldo", lockedOutcomeSaldo.compareTo(BigDecimal.ZERO) == 1 ? lockedOutcomeSaldo : null);
         model.addAttribute("marketing", depositCalculationService.calculteDepositMarketingData(user.getDeposit(), user.getDeposit().getSum()));
         model.addAttribute("moneymotionlogs", depositService.getMoneyMotionLogs(user.getDeposit()));
+        model.addAttribute("news", newsService.newsItemsByManagedUnitsPublished(user.getManagedUnits()));
+
+        System.out.println("news: " + newsService.newsItemsByManagedUnits(user.getManagedUnits()));
 
         return "depositors/index";
     }

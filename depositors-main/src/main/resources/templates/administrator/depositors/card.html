@@ -46,19 +46,20 @@
                     </div>
                 </div>
 
-                <div class="row" th:with="ls=${(lockedOutcomeSaldo eq null)? null : 'Зарезервировано: ₽ ' + #numbers.formatDecimal(lockedOutcomeSaldo, 0, 'COMMA', 0, 'POINT')}">
+                <div class="row"
+                     th:with="ls=${(lockedOutcomeSaldo eq null)? null : 'Зарезервировано: ₽ ' + #numbers.formatDecimal(lockedOutcomeSaldo, 0, 'COMMA', 0, 'POINT')}">
                     <!-- START Информация -->
                     <div th:replace="fragment/depositors :: param_plate('icon icon-user', ${deposit.id}, 'Номер счета', 4)"/>
                     <div th:replace="fragment/depositors :: param_plate_w_alert(
                         'icon icon-dollar', ${'₽ ' + #numbers.formatDecimal(saldo, 0, 'COMMA', 2, 'POINT') + ' / ' +
                         #numbers.formatDecimal(availableSaldo, 0, 'COMMA', 2, 'POINT')},
                         'На счету / Доступно для вывода', 4, ${ls}
-                        )" />
+                        )"/>
                     <div th:replace="fragment/depositors :: param_plate('icon icon-list-circle',${'%'+deposit.percent}, 'Процентная ставка', 4)"/>
                     <!-- END Информация -->
                 </div>
 
-                <div class="block overview-block" th:replace="fragment/depositors :: info(${user}, false)" />
+                <div class="block overview-block" th:replace="fragment/depositors :: info(${user}, false)"/>
 
                 <div class="block overview-block" th:if="${user.deposit != null}">
                     <div class="block-heading">
@@ -82,12 +83,157 @@
                                             </td>
                                             <td>
                                                 <form method="post" th:action="@{/administrator/deposit/percent}">
-                                                    <input type="hidden" name="deposit" th:value="${user.deposit.id}" />
-                                                    <input type="hidden" name="user" th:value="${user.id}" />
-                                                    <input type="text" name="percent" th:value="${user.deposit.percent}" />
+                                                    <input type="hidden" name="deposit" th:value="${user.deposit.id}"/>
+                                                    <input type="hidden" name="user" th:value="${user.id}"/>
+                                                    <input type="text" name="percent"
+                                                           th:value="${user.deposit.percent}"/>
                                                     <button type="submit" class="btn btn-primary">
                                                         Изменить
                                                     </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block overview-block">
+                    <div class="block-heading">
+                        <div class="main-text h2">
+                            Новости
+                        </div>
+                        <div class="block-controls">
+                                        <span aria-hidden="true"
+                                              class="icon icon-cross icon-size-medium block-control-remove"></span>
+                        </div>
+                    </div>
+                    <div class="block-content-outer">
+                        <div class="block-content-inner">
+                            <div class="row" th:if="${news != null and #arrays.length(news) > 0}">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-hover table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <td width="20%">Заголовок</td>
+                                            <td>Новость</td>
+                                            <td>Опубликована</td>
+                                            <td width="5%">Управление</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="newsItem : ${news}">
+                                            <td><p th:text="${newsItem.name}"></p></td>
+                                            <td>
+                                                <span th:if="${reason != null and newsItemReason == newsItem.id}"
+                                                      th:switch="${reason}">
+                                                    <p th:case="${T(com.mfodepositorsacc.exceptions.WrongInputDataException.Reason).NAME_FIELD}">
+                                                        <span style="color: red">Новость не отредактирована: Не задана тема новости!</span>
+                                                    </p>
+                                                    <p th:case="${T(com.mfodepositorsacc.exceptions.WrongInputDataException.Reason).DESCRIPTION_FIELD}">
+                                                        <span style="color: red">Новость не отредактирована: Пустая новость!</span>
+                                                    </p>
+                                                </span>
+
+                                                <div th:utext="${newsItem.description}"/>
+                                            </td>
+                                            <td>
+                                                <p th:if="${newsItem.published}">
+
+                                                <form method="get"
+                                                      th:action="@{/administrator/depositor/card/newsitem/unpublish}">
+                                                    <input type="hidden" name="user" th:value="${user.id}"/>
+                                                    <input type="hidden" name="newsItem" th:value="${newsItem.id}"/>
+                                                    <label>Да</label>
+                                                    <button th:title="${'Снять с публикации'}" type="submit">
+                                                        <img class="ico16"
+                                                             th:src="@{/static/assets/images/crud/undo.png}"/>
+                                                    </button>
+                                                </form>
+                                                </p>
+
+                                                <p th:if="${!newsItem.published}">
+                                                    <form method="get"
+                                                          th:action="@{/administrator/depositor/card/newsitem/publish}">
+                                                        <input type="hidden" name="user" th:value="${user.id}"/>
+                                                        <input type="hidden" name="newsItem" th:value="${newsItem.id}"/>
+                                                        <label>Нет</label>
+                                                        <button th:title="${'Опубликовать'}" type="submit">
+                                                            <img class="ico16"
+                                                                 th:src="@{/static/assets/images/crud/check.png}"/>
+                                                        </button>
+                                                    </form>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <button data-toggle="modal" th:title="${'Редактировать'}"
+                                                                    th:attr="data-target = ${'#modal_newsItem_' + newsItem.id}">
+                                                                <img class="ico16"
+                                                                     th:src="@{/static/assets/images/crud/edit.png}"/>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <form th:action="@{/administrator/depositor/card/newsitem/remove}"
+                                                                  th:title="${'Удалить'}" method="post">
+                                                                <input type="hidden" name="_method" value="delete"/>
+                                                                <input type="hidden" name="newsItem"
+                                                                       th:value="${newsItem.id}"/>
+                                                                <input type="hidden" name="user" th:value="${user.id}"/>
+                                                                <button type="submit"><img class="ico16"
+                                                                                           th:src="@{/static/assets/images/crud/remove.png}"/>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-hover table-condensed">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                Добавить новость
+                                                <span th:if="${newsReason ne null}" th:switch="${newsReason}">
+                                                    <p th:case="${T(com.mfodepositorsacc.exceptions.WrongInputDataException.Reason).NAME_FIELD}">
+                                                        <span style="color: red">Не задана тема новости!</span>
+                                                    </p>
+                                                    <p th:case="${T(com.mfodepositorsacc.exceptions.WrongInputDataException.Reason).DESCRIPTION_FIELD}">
+                                                        <span style="color: red">Пустая новость!</span>
+                                                    </p>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <form method="post" class="form"
+                                                      th:action="@{/administrator/deposit/news}">
+                                                    <input type="hidden" name="user" th:value="${user.id}"/>
+                                                    <input type="hidden" name="deposit" th:value="${user.deposit.id}"/>
+
+                                                    <div class="form-group initial">
+                                                        <input type="text" name="name" class="form-control"
+                                                               placeholder="Заголовок"/>
+                                                    </div>
+                                                    <div class="form-group initial">
+                                                        <textarea name="description"
+                                                                  class="newsItem form-control"></textarea>
+                                                    </div>
+                                                    <div class="form-group initial">
+                                                        <button type="submit" class="btn btn-primary form-control">
+                                                            Добавить
+                                                        </button>
+                                                    </div>
                                                 </form>
                                             </td>
                                         </tr>
@@ -115,8 +261,46 @@
         </div>
         <!-- END Right Column -->
     </div>
+
+    <div th:each="newsItem : ${news}">
+        <!-- Содержимое всплывающего окнас редактором новости -->
+        <div class="modal fade" th:id="${'modal_newsItem_' + newsItem.id}"
+             th:attr="aria-labelledby=${'modal_newsItem_' + newsItem.id + '-label'}" tabindex="-1" role="dialog"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" data-border-top="multi">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="long-modal-label">Редактирование новости</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="form"
+                              th:action="@{'/administrator/depositor/card/newsitem/' + ${newsItem.id}}">
+                            <input type="hidden" name="user" th:value="${user.id}"/>
+                            <input type="hidden" name="_method" value="put"/>
+
+                            <div class="form-group initial">
+                                <input type="text" name="name" class="form-control" placeholder="Заголовок"
+                                       th:value="${newsItem.name}"/>
+                            </div>
+                            <div class="form-group initial">
+                                <textarea name="description"
+                                          class="newsItem form-control"
+                                          th:utext="${newsItem.description}"></textarea>
+                            </div>
+                            <div class="form-group initial">
+                                <button type="submit" class="btn btn-primary form-control">
+                                    Изменить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- END Body Container -->
-    <div th:replace="fragment/scripts_bottom :: scripts(page = 'administrator', subpage = 'depositor-card')"/>
+    <div th:replace="fragment/scripts_bottom :: scripts(page = 'administrator', subpage = 'depositor_card')"/>
     <script>
         $(document).ready(function () {
             adminPagesEngine.init($, "administrator/depositors/card");

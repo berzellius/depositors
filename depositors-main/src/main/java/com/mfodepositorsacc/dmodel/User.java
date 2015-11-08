@@ -12,10 +12,10 @@ import java.util.Set;
 @Entity(name = "User")
 @Table(
         name = "users",
-            uniqueConstraints = {
-                    @UniqueConstraint(columnNames = {"activation_code"})
-            }
-        )
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"activation_code"})
+        }
+)
 @Access(AccessType.FIELD)
 public class User extends DModelEntity implements UserDetails {
 
@@ -77,6 +77,9 @@ public class User extends DModelEntity implements UserDetails {
     @OneToOne
     @JoinColumn(name = "deposit_id")
     private Deposit deposit;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<ManagedUnit> managedUnits;
 
     @Override
     public Set<UserRole> getAuthorities() {
@@ -152,5 +155,13 @@ public class User extends DModelEntity implements UserDetails {
 
     public void setRestorePassRequested(Boolean restorePassRequested) {
         this.restorePassRequested = restorePassRequested;
+    }
+
+    public Set<ManagedUnit> getManagedUnits() {
+        return managedUnits;
+    }
+
+    public void setManagedUnits(Set<ManagedUnit> managedUnits) {
+        this.managedUnits = managedUnits;
     }
 }

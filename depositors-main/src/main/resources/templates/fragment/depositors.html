@@ -63,7 +63,7 @@
 </div>
 
 <div class="row" th:fragment="news_block">
-    <div class="col-md-12">
+    <div class="col-md-12" th:if="${news != null and #arrays.length(news) > 0}">
         <div class="c-widget c-widget-custom c-widget-facebook c-widget-size-normal">
             <div class="c-widget-icon">
                 <span class="icon icon-mail"></span>
@@ -71,69 +71,19 @@
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
-                    <div class="item">
-                        <div class="c-wdiget-content-block mCustomScrollbar _mCS_5 mCS-autoHide mCS_no_scrollbar"
+                    <div th:each="newsItem,status : ${news}" class="item" th:class="${(status.index == 0)}? 'item active' : 'item'">
+                        <div class="c-wdiget-content-block news mCustomScrollbar _mCS_6 mCS-autoHide mCS_no_scrollbar"
                              style="overflow: visible;">
 
-                            <div id="mCSB_5" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_outside"
-                                 style="max-height: 150px;" tabindex="0">
-                                <div id="mCSB_5_container"
-                                     class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y"
-                                     style="position: relative; top: 0px; left: 0px;" dir="ltr">
-                                    <div class="c-widget-content-heading">
-                                        07 December
-                                        <small>13:46</small>
-                                    </div>
-                                    <div class="c-widget-content-body">
-                                        Quickly maximize timely deliverables for real-time schemas.
-                                        Dramatically maintain clicks-and-mortar solutions without functional
-                                        solutions.
-                                    </div>
-                                    <div class="c-widget-content-sub">
-                                        <a href="#">
-                                            <span class="glyphicon glyphicon-thumbs-up"></span>
-                                            Like This
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="mCSB_5_scrollbar_vertical"
-                                 class="mCSB_scrollTools mCSB_5_scrollbar mCS-dark mCSB_scrollTools_vertical"
-                                 style="display: none;">
-                                <div class="mCSB_draggerContainer">
-                                    <div id="mCSB_5_dragger_vertical" class="mCSB_dragger"
-                                         style="position: absolute; min-height: 0px; height: 0px; top: 0px;"
-                                         oncontextmenu="return false;">
-                                        <div class="mCSB_dragger_bar" style="line-height: 0px;"></div>
-                                    </div>
-                                    <div class="mCSB_draggerRail"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="c-wdiget-content-block mCustomScrollbar _mCS_6 mCS-autoHide mCS_no_scrollbar"
-                             style="overflow: visible;">
-
-                            <div id="mCSB_6" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_outside"
-                                 style="max-height: 150px;" tabindex="0">
+                            <div id="mCSB_6" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_outside" tabindex="0">
                                 <div id="mCSB_6_container"
                                      class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y"
                                      style="position: relative; top: 0px; left: 0px;" dir="ltr">
                                     <div class="c-widget-content-heading">
-                                        05 December
-                                        <small>09:39</small>
+                                        <span th:text="${newsItem.name}" />
                                     </div>
-                                    <div class="c-widget-content-body">
-                                        Efficiently unleash cross-media information without cross-media
-                                        value. Quickly maximize timely deliverables for real-time schemas.
-                                    </div>
-                                    <div class="c-widget-content-sub">
-                                        <a href="#">
-                                            <span class="glyphicon glyphicon-thumbs-up"></span>
-                                            Like This
-                                        </a>
-                                    </div>
+                                    <div class="c-widget-content-body" th:utext="${newsItem.description}" />
+                                    <p class="dtm"><small th:text="${#dates.format(newsItem.dtmCreate,'dd.MM.yyyy hh:mm')}" /></p>
                                 </div>
                             </div>
                             <div id="mCSB_6_scrollbar_vertical"
@@ -149,47 +99,6 @@
                                 </div>
                             </div>
 
-
-                        </div>
-                    </div>
-                    <div class="item active">
-                        <div class="c-wdiget-content-block mCustomScrollbar _mCS_7 mCS-autoHide mCS_no_scrollbar"
-                             style="overflow: visible;">
-
-                            <div id="mCSB_7" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_outside"
-                                 style="max-height: 150px;" tabindex="0">
-                                <div id="mCSB_7_container"
-                                     class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y"
-                                     style="position: relative; top: 0px; left: 0px;" dir="ltr">
-                                    <div class="c-widget-content-heading">
-                                        06 December
-                                        <small>22:19</small>
-                                    </div>
-                                    <div class="c-widget-content-body">
-                                        Dramatically maintain clicks-and-mortar solutions without functional
-                                        solutions. Quickly maximize timely deliverables for real-time
-                                        schemas.
-                                    </div>
-                                    <div class="c-widget-content-sub">
-                                        <a href="#">
-                                            <span class="glyphicon glyphicon-thumbs-up"></span>
-                                            Like This
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="mCSB_7_scrollbar_vertical"
-                                 class="mCSB_scrollTools mCSB_7_scrollbar mCS-dark mCSB_scrollTools_vertical"
-                                 style="display: none;">
-                                <div class="mCSB_draggerContainer">
-                                    <div id="mCSB_7_dragger_vertical" class="mCSB_dragger"
-                                         style="position: absolute; min-height: 0px; top: 0px; height: 0px;"
-                                         oncontextmenu="return false;">
-                                        <div class="mCSB_dragger_bar" style="line-height: 0px;"></div>
-                                    </div>
-                                    <div class="mCSB_draggerRail"></div>
-                                </div>
-                            </div>
 
                         </div>
                     </div>

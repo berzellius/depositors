@@ -10,6 +10,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface NotificationService {
-
     public void send(Notification notification) throws WrongInputDataException, NotificationSendException;
 }

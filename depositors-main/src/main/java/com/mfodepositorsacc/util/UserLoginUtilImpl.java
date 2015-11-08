@@ -6,6 +6,7 @@ import com.mfodepositorsacc.repository.NotificationRepository;
 import com.mfodepositorsacc.repository.UserRepository;
 import com.mfodepositorsacc.repository.UserRoleRepository;
 import com.mfodepositorsacc.service.DepositCalculationService;
+import com.mfodepositorsacc.service.ManagedUnitsService;
 import com.mfodepositorsacc.specifications.UserSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,6 +42,9 @@ public class UserLoginUtilImpl implements UserLoginUtil {
 
     @Autowired
     NotificationRepository notificationRepository;
+
+    @Autowired
+    ManagedUnitsService managedUnitsService;
 
     @Override
     public User getCurrentLogInUser() {
@@ -79,6 +83,8 @@ public class UserLoginUtilImpl implements UserLoginUtil {
         user.setPassword(encoder.encodePassword(user.getPassword(), null));
 
         userRepository.save(user);
+
+        managedUnitsService.addNewUserToRoleUnits(user);
 
     }
 

@@ -42,7 +42,7 @@
                     <div class="col-xs-12">
 
                         <div th:if="${reason != null}" th:switch="${reason}">
-                            <p th:case="${T(com.mfodepositorsacc.exceptions.WrongInputDataException.Reason).PASSWORD_MISMATCH">
+                            <p th:case="${T(com.mfodepositorsacc.exceptions.WrongInputDataException.Reason).PASSWORD_MISMATCH}">
                                 <span style="color: red">Пароли не совпадают!</span>
                             </p>
                         </div>

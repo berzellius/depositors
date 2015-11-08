@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by berz on 17.05.15.
@@ -86,6 +87,5 @@ public class AdminController extends BaseController {
 
         return "administrator/depositorTypeSettings";
     }
-
 
 }

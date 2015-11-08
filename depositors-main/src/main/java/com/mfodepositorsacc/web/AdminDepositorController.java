@@ -1,14 +1,13 @@
 package com.mfodepositorsacc.web;
 
-import com.mfodepositorsacc.dmodel.Deposit;
-import com.mfodepositorsacc.dmodel.Depositor;
-import com.mfodepositorsacc.dmodel.User;
-import com.mfodepositorsacc.dmodel.UserRole;
+import com.mfodepositorsacc.dmodel.*;
+import com.mfodepositorsacc.exceptions.WrongInputDataException;
 import com.mfodepositorsacc.repository.UserRepository;
 import com.mfodepositorsacc.repository.UserRoleRepository;
 import com.mfodepositorsacc.service.BillingSystemUtils;
 import com.mfodepositorsacc.service.DepositCalculationService;
 import com.mfodepositorsacc.service.DepositService;
+import com.mfodepositorsacc.service.NewsService;
 import com.mfodepositorsacc.specifications.UserSpecifications;
 import com.mfodepositorsacc.wrappers.PageWrapper;
 import javassist.NotFoundException;
@@ -19,8 +18,7 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
@@ -46,6 +44,9 @@ public class AdminDepositorController extends BaseController {
 
     @Autowired
     DepositService depositService;
+
+    @Autowired
+    NewsService newsService;
 
     @RequestMapping(value = "/cardbydeposit")
     public String cardByDepositor(
@@ -91,8 +92,77 @@ public class AdminDepositorController extends BaseController {
         model.addAttribute("availableSaldo", billingSystemUtils.getDepositAvailableSaldo(user.getDeposit().getId()));
         model.addAttribute("lockedOutcomeSaldo", lockedOutcomeSaldo.compareTo(BigDecimal.ZERO) == 1 ? lockedOutcomeSaldo : null);
         model.addAttribute("moneymotionlogs", depositService.getMoneyMotionLogs(user.getDeposit()));
+        model.addAttribute("news", newsService.newsItemsByManagedUnits(user.getManagedUnits()));
 
         return "administrator/depositors/card";
+    }
+
+    @RequestMapping(value = "/card/newsitem/unpublish")
+    public String unpublishNewsItemFromCard(
+            @RequestParam(value = "user")
+            User user,
+            @RequestParam(value = "newsItem")
+            NewsItem newsItem,
+            final RedirectAttributes redirectAttributes,
+            Model model
+    ){
+        newsService.unpublish(newsItem);
+
+        redirectAttributes.addAttribute("user", user.getId());
+        return "redirect:/administrator/depositor/card";
+    }
+
+    @RequestMapping(value = "/card/newsitem/publish")
+    public String publishNewsItemFromCard(
+            @RequestParam(value = "user")
+            User user,
+            @RequestParam(value = "newsItem")
+            NewsItem newsItem,
+            final RedirectAttributes redirectAttributes,
+            Model model
+    ){
+        newsService.publish(newsItem);
+
+        redirectAttributes.addAttribute("user", user.getId());
+        return "redirect:/administrator/depositor/card";
+    }
+
+    @RequestMapping(value = "/card/newsitem/remove", method = RequestMethod.DELETE)
+    public String deleteNewsItemFromCard(
+            @RequestParam(value = "user")
+            User user,
+            @RequestParam(value = "newsItem")
+            NewsItem newsItem,
+            final RedirectAttributes redirectAttributes,
+            Model model
+    ){
+        newsService.delete(newsItem);
+
+        redirectAttributes.addAttribute("user", user.getId());
+        return "redirect:/administrator/depositor/card";
+    }
+
+    @RequestMapping(
+            value = "/card/newsitem/{id}",
+            method = RequestMethod.PUT)
+    public String updateNewsItem(
+            Model model,
+            @PathVariable(value = "id")
+            NewsItem newsItem,
+            NewsItem newsItemModified,
+            @RequestParam(value = "user")
+            User user,
+            final RedirectAttributes redirectAttributes
+    ){
+        try {
+            newsService.updateNewsItem(newsItem, newsItemModified);
+        } catch (WrongInputDataException e) {
+            redirectAttributes.addFlashAttribute("reason", e.getReason());
+            redirectAttributes.addFlashAttribute("newsItemReason", newsItem.getId());
+        }
+
+        redirectAttributes.addAttribute("user", user.getId());
+        return "redirect:/administrator/depositor/card";
     }
 
     @RequestMapping(value = "/list")
