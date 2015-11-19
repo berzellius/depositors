@@ -14,3 +14,16 @@
 img.ico16{
     width: 16px;
 }
+
+ul.links_with_img{
+    list-style: none;
+}
+
+ul.links_with_img li.link{
+    float: left;
+    margin-left: 25px;
+}
+
+ul.links_with_img li.link img{
+    width: 100px;
+}

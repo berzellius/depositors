@@ -20,6 +20,8 @@ import java.util.List;
  */
 @Service
 public interface DepositService {
+    HashMap<String, Object> mainContractPdfPlaceholders(Deposit deposit);
+
     void capitalize(Deposit deposit) throws DepositCapitalizationIllegalStateException;
 
     void dropCapitalizationDate(Deposit deposit);

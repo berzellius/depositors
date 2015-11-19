@@ -509,9 +509,53 @@ var signUpEngine = {
                     }
                 }
 
+                $('div.deposit_calculation div.graph').css('display', 'block');
+
+                var colors = ["#4596f1", "#f17d45"];
+                var d1 = {'label':'Вклад','data':[[0, res['sum']], [1, res['sum']]]};
+                var d2 = {'label':'Проценты','data':[[1, res['profit']]]};
+                $.plot($('div.deposit_calculation div.graph'), [ d1, d2 ], {
+                    series: {
+                        stack: true,
+                        bars: {
+                            show: true,
+                            fill: true,
+                            lineWidth: 1,
+                            barWidth: 0.6
+                        }
+                    },
+                    grid: {
+                        backgroundColor: '#FFFFFF',
+                        borderColor: '#D6D6D9',
+                        borderWidth: 0,
+                        hoverable: true
+                    },
+                    tooltip: true,
+                    tooltipOpts: {
+                        content: "%s: <b>%y</b> руб.",
+                        shifts: {
+                            x: -40,
+                            y: 25
+                        },
+                        defaultTheme : false
+                    },
+                    xaxis: {
+                        show: true,
+                        tickLength: 0,
+                        tickFormatter: function(number) {
+                            return (number == 0.25) ? 'Сегодня:<br /><b>' + res['sum'] + ' руб.</b>' : (number == 1.25)? 'Будет:<br /><b>' + res['sumInTheEnd'] + ' руб.</b>' : '';
+                        }
+                    },
+                    yaxis: {
+                        show: true,
+                        tickLength: 0,
+                        font: {color: '#fff'}
+                    },
+                    legend: false,
+                    colors: colors
+                });
 
                 $('div.deposit_calculation div.preloader_circle').css('display', 'none');
-
                 $('div.deposit_calculation div.info').css('display', 'block');
             }
         );

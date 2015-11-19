@@ -15,6 +15,8 @@ public abstract class CommonProjectSettings implements ProjectSettings {
         types.add("image/gif");
         types.add("image/tiff");
 
+        types.add("application/pdf");
+
         return types;
     }
 

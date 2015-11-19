@@ -67,6 +67,43 @@
                             <!-- END График -->
                         </div>
                         <div class="row">
+                            <!-- START документы -->
+                            <div class="col-md-12">
+                                <div class="block">
+                                    <div class="block-heading">
+                                        <div class="main-text h2">
+                                            Документы
+                                        </div>
+                                        <div class="block-controls">
+                                            <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                                        </div>
+                                    </div>
+                                    <div class="block-content-outer">
+                                        <div class="block-content-inner">
+                                                <div>
+                                                    <ul class="links_with_img">
+                                                        <li class="link">
+                                                            <a target="_blank" th:href="@{/depositor/mainContract}">
+                                                                <img th:src="@{/static/assets/images/icons/doc.png}" />
+                                                                <p><span th:text="${'Договор вклада'}" /></p>
+                                                            </a>
+                                                        </li>
+                                                        <li th:if="${documents2download != null}" th:each="entry : ${documents2download.entrySet()}" class="link">
+                                                            <a target="_blank" th:href="@{/depositor/documents/__${entry.key.alias}__/download}">
+                                                                <img th:src="@{/static/assets/images/icons/doc.png}" />
+                                                                <p><span th:text="#{'depositorDocument_' + ${entry.key}}" /></p>
+                                                            </a>
+                                                        </li>
+                                                        <li style="clear:both">&nbsp;</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- END документы -->
+                        </div>
+                        <div class="row">
                             <!-- START Логи -->
                             <div th:each="log : ${moneymotionlogs}">
                                 <div th:replace="fragment/depositors :: logs(${log.key}, ${log.value})"/>

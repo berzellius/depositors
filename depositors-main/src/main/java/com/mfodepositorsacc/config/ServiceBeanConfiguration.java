@@ -187,4 +187,14 @@ public class ServiceBeanConfiguration {
 
     @Bean
     public ManagedUnitsService managedUnitsService(){ return new ManagedUnitsServiceImpl();}
+
+    @Bean
+    public ReadJsonFiles readJsonFiles(){
+        ReadJsonFiles readJsonFiles = new ReadJsonFilesImpl();
+        readJsonFiles.setJsonFilesLocation("json/");
+        readJsonFiles.setMainContractFile("maincontract");
+        readJsonFiles.setExtension("json");
+
+        return readJsonFiles;
+    }
 }

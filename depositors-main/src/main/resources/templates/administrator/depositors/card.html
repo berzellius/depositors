@@ -104,6 +104,35 @@
                 <div class="block overview-block">
                     <div class="block-heading">
                         <div class="main-text h2">
+                            Документы
+                        </div>
+                        <div class="block-controls">
+                                        <span aria-hidden="true"
+                                              class="icon icon-cross icon-size-medium block-control-remove"></span>
+                        </div>
+                    </div>
+                    <div class="block-content-outer">
+                        <div class="block-content-inner">
+                            <div th:if="${documents2download != null}">
+                                <ul class="links_with_img">
+                                    <li th:each="entry : ${documents2download.entrySet()}" class="link">
+                                        <a th:href="@{/administrator/depositor/__${user.id}__/documents/__${entry.key.alias}__/download/__${entry.value.uploadedFile.id}__}">
+                                            <img th:src="@{/static/assets/images/icons/doc.png}" />
+                                            <p><span th:text="#{'depositorDocument_' + ${entry.key}}" /></p>
+                                        </a>
+                                    </li>
+                                    <li style="clear:both">&nbsp;</li>
+                                </ul>
+                            </div>
+
+                            <a th:href="@{/administrator/depositor/__${user.id}__/documents}">Перейти в раздел "Документы вкладчика"</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block overview-block">
+                    <div class="block-heading">
+                        <div class="main-text h2">
                             Новости
                         </div>
                         <div class="block-controls">

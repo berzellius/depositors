@@ -1,5 +1,6 @@
 package com.mfodepositorsacc.config;
 
+import com.mfodepositorsacc.dmodel.DepositorDocument;
 import com.mfodepositorsacc.dmodel.DepositorTypeSettings;
 import com.mfodepositorsacc.dmodel.SumSettings;
 import com.mfodepositorsacc.enumerated.Source;
@@ -55,6 +56,7 @@ public class ConfigMVCConfigurerAdapter extends WebMvcConfigurerAdapter {
         registry.addConverter(stringSourceConverter());
         registry.addConverter(stringDepositorFormTypeConverter());
         registry.addConverter(stringDateConverter());
+        registry.addConverter(stringTypeConverter());
     }
 
     @Override
@@ -105,6 +107,15 @@ public class ConfigMVCConfigurerAdapter extends WebMvcConfigurerAdapter {
             public SumSettings convert(String s) {
                 Long id = Long.decode(s);
                 return sumSettingsRepository.findOne(id);
+            }
+        };
+    }
+
+    public Converter<String, DepositorDocument.Type> stringTypeConverter(){
+        return new Converter<String, DepositorDocument.Type>() {
+            @Override
+            public DepositorDocument.Type convert(String s) {
+                return DepositorDocument.Type.getByAlias(s);
             }
         };
     }

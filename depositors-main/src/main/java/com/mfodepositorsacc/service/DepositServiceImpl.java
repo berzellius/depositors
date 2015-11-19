@@ -8,9 +8,11 @@ import com.mfodepositorsacc.billing.exception.DocumentAlreadyProcessingException
 import com.mfodepositorsacc.billing.exception.DocumentNotFoundException;
 import com.mfodepositorsacc.billing.exception.IllegalDocumentStateException;
 import com.mfodepositorsacc.dmodel.Deposit;
+import com.mfodepositorsacc.dmodel.User;
 import com.mfodepositorsacc.dto.DepositCalculation;
 import com.mfodepositorsacc.exceptions.DepositCapitalizationIllegalStateException;
 import com.mfodepositorsacc.repository.DepositRepository;
+import com.mfodepositorsacc.util.fwMoney;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by berz on 21.06.15.
@@ -40,6 +42,58 @@ public class DepositServiceImpl implements DepositService {
 
     @Autowired
     DepositRepository depositRepository;
+
+    @Override
+    public HashMap<String, Object> mainContractPdfPlaceholders(Deposit deposit){
+        HashMap<String, Object> pl = new LinkedHashMap<String, Object>();
+        pl.put("$CONTRACT_NUMBER", deposit.getId());
+        pl.put("$CITY", "Москва");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
+        pl.put("$CONTRACT_DATE", sdf.format(deposit.getDtmCreate()));
+        pl.put("$FIO", deposit.getDepositor().getFio());
+        pl.put("$ADDR", deposit.getDepositor().getRegIndex().concat(" ").concat(deposit.getDepositor().getRegCity().toString()));
+        pl.put("$PASSPORT", deposit.getDepositor().getPassportNum().concat(", выдан ").concat(deposit.getDepositor().getDepartmentName()).concat(" (").concat(deposit.getDepositor().getDepartmentCode()).concat(") ").concat(sdf.format(deposit.getDepositor().getPassportAccepted())));
+        pl.put("$SUM_DIG", deposit.getSum().intValue());
+        fwMoney fwMoney = new fwMoney(deposit.getSum().doubleValue());
+        pl.put("$SUM_WORDS", fwMoney.num2str(true, false).trim());
+        fwMoney fwMoneyPercents = new fwMoney(deposit.getPercent().doubleValue());
+        pl.put("$YEAR_PERCENTS_WORDS",
+                fwMoneyPercents.num2str(false, true, com.mfodepositorsacc.util.fwMoney.Type.NUMBER).trim()
+        );
+        pl.put("$YEAR_PERCENTS", deposit.getPercent().doubleValue());
+        fwMoney fwMoneyLength = new fwMoney(deposit.getLength());
+        pl.put("$LENGTH_MONTH_WORDS",  fwMoneyLength.num2str(true, false).trim());
+        pl.put("$LENGTH_MONTH", deposit.getLength());
+
+        DepositCalculation depositCalculation = new DepositCalculation();
+        depositCalculation.setLength(deposit.getLength());
+        depositCalculation.setSum(deposit.getSum());
+        depositCalculation.percents = deposit.getPercent();
+        BigDecimal sumInTheEnd = depositCalculationService.calculateSumInTheEnd(depositCalculation);
+        BigDecimal profit = sumInTheEnd.add(deposit.getSum().negate());
+
+        BigDecimal profitInPercents = profit.multiply(BigDecimal.valueOf(100)).divide(deposit.getSum(), 2, RoundingMode.HALF_UP);
+        fwMoney fwMoneyProfitPercents = new fwMoney(profitInPercents.doubleValue());
+        pl.put("$PROFIT_PERCENTS_WORDS", fwMoneyProfitPercents.num2str(false, true, com.mfodepositorsacc.util.fwMoney.Type.NUMBER).trim());
+        pl.put("$PROFIT_PERCENTS", profitInPercents.doubleValue());
+
+        BigDecimal tax = profit.multiply(BigDecimal.valueOf(0.13));
+        BigDecimal cleanProfit = profit.add(tax.negate());
+        BigDecimal monthlyProfit = cleanProfit.divide(BigDecimal.valueOf(deposit.getLength()), 2, RoundingMode.HALF_UP);
+        fwMoney fwMoneyTax = new fwMoney(tax.doubleValue());
+        pl.put("$TAX_ALL", fwMoneyTax.num2str(false, false, com.mfodepositorsacc.util.fwMoney.Type.NUMBER_AND_MONEY));
+        fwMoney fwMoneyProfit = new fwMoney(cleanProfit.doubleValue());
+        pl.put("$CLEAN_PROFIT_ALL", fwMoneyProfit.num2str(false, false, com.mfodepositorsacc.util.fwMoney.Type.NUMBER_AND_MONEY));
+        fwMoney fwMoneyMonthlyProfit = new fwMoney(monthlyProfit.doubleValue());
+        pl.put("$MONTHLY_PROFIT", fwMoneyMonthlyProfit.num2str(false, false, com.mfodepositorsacc.util.fwMoney.Type.NUMBER_AND_MONEY));
+
+        return pl;
+    }
+
+    private String getPercentsTailHelper(BigDecimal percents){
+        return ((percents.doubleValue() - Math.floor(percents.doubleValue())) > 0) ?
+                " целых " + Math.round((percents.doubleValue() - Math.floor(percents.doubleValue()))*100) + " сотых" : "";
+    }
 
     @Override
     public void capitalize(Deposit deposit) throws DepositCapitalizationIllegalStateException{

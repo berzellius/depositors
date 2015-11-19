@@ -20,15 +20,12 @@ import java.util.Map;
  */
 public abstract class AbstractITextPdfView extends AbstractView {
 
-    private ProjectSettings projectSettings;
+    private float marginRight = 10;
+    private float marginLeft = 20;
+    private float marginTop = 60;
+    private float marginBottom = 10;
 
-    public void setProjectSettings(ProjectSettings projectSettings){
-        this.projectSettings = projectSettings;
-    }
-
-    public String getFontPath(String font){
-        return projectSettings.fontsDirectoryLocation().concat(font);
-    }
+    private boolean defaultMargins = true;
 
     public AbstractITextPdfView() {
         setContentType("application/pdf");
@@ -51,6 +48,14 @@ public abstract class AbstractITextPdfView extends AbstractView {
         prepareWriter(model, writer, request);
         buildPdfMetadata(model, document, request);
 
+        if(!this.isDefaultMargins()){
+            document.setMargins(
+                    this.getMarginLeft(),
+                    this.getMarginRight(),
+                    this.getMarginTop(),
+                    this.getMarginBottom()
+            );
+        }
         // Build PDF document.
         document.open();
         buildPdfDocument(model, document, writer, request, response);
@@ -83,4 +88,44 @@ public abstract class AbstractITextPdfView extends AbstractView {
 
     protected abstract void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+    public void setMarginRight(float marginRight) {
+        this.marginRight = marginRight;
+    }
+
+    public void setMarginLeft(float marginLeft) {
+        this.marginLeft = marginLeft;
+    }
+
+    public void setMarginTop(float marginTop) {
+        this.marginTop = marginTop;
+    }
+
+    public void setMarginBottom(float marginBottom) {
+        this.marginBottom = marginBottom;
+    }
+
+    public void setDefaultMargins(boolean defaultMargins) {
+        this.defaultMargins = defaultMargins;
+    }
+
+    public float getMarginRight() {
+        return marginRight;
+    }
+
+    public float getMarginLeft() {
+        return marginLeft;
+    }
+
+    public float getMarginTop() {
+        return marginTop;
+    }
+
+    public float getMarginBottom() {
+        return marginBottom;
+    }
+
+    public boolean isDefaultMargins() {
+        return defaultMargins;
+    }
 }
